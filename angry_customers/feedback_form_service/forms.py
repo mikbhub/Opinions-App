@@ -3,24 +3,36 @@ from . models import Feedback
 from django.utils.translation import ugettext_lazy as _
 
 
-class FeedbackForm(forms.ModelForm):
+#TODO: rewrite form as forms.form without refering to any model as a
+#  fix for validation: email is being validatet as customer instance.
+class FeedbackForm(forms.Form):
 
-    class Meta:
-        model = Feedback
-        fields = (
-            'title',
-            'description',
-            'customer',
-        )
+    name = forms.CharField(max_length=128)
+    customer = forms.EmailField()
+    title = forms.CharField(max_length=64)
+    description = forms.CharField(widget=forms.Textarea)
+    
 
-        labels = {
-            'customer': _('Your email'),
-        }
+# class FeedbackForm(forms.ModelForm):
 
-        help_texts = {
-            'description': _('Please describe your problem.'),
-        }
+#     # customer = forms.EmailField()
 
-        widgets = {
-            'customer': forms.EmailInput(),
-        }
+#     class Meta:
+#         model = Feedback
+#         fields = (
+#             'title',
+#             'description',
+#             'customer',
+#         )
+
+#         labels = {
+#             'customer': _('Your email'),
+#         }
+
+#         help_texts = {
+#             'description': _('Please describe your problem.'),
+#         }
+
+#         # widgets = {
+#         #     'customer': forms.EmailInput(),
+#         # }

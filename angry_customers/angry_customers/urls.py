@@ -19,5 +19,5 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     # url(r'^api/sentiment/', include('sentiment_service.urls')),
-    url(r'^feedback-form/', include('feedback_form_service.urls')),
+    url(r'^customer-feedback/', include('feedback_form_service.urls')),
 ]
