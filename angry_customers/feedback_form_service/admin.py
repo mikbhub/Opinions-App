@@ -11,9 +11,9 @@ class CustomerAdmin(admin.ModelAdmin):
 
 class FeedbackAdmin(admin.ModelAdmin):
 
-    list_display = ('customer', 'title', 'date',)
+    list_display = ('customer', 'title', 'date', 'sentiment')
     search_fields = ['customer',]
-    list_filter = ['date', 'customer',]
+    list_filter = ['date', 'customer', 'sentiment']
 
 
 # Register your models here.
