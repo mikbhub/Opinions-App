@@ -1,0 +1,11 @@
+{
+  "name": "formjs",
+  "version": "1.0.0",
+  "description": "simple frontend client for 'customers app' providing a form",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server"
+  },
+  "author": "",
+  "license": "ISC"
+}
