@@ -2,6 +2,7 @@ from django.contrib import admin
 from . models import Customer, Feedback
 
 
+@admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
 
     list_display = ('name', 'email',)
@@ -9,13 +10,9 @@ class CustomerAdmin(admin.ModelAdmin):
     list_filter = ['email',]
 
 
+@admin.register(Feedback)
 class FeedbackAdmin(admin.ModelAdmin):
 
-    list_display = ('customer', 'date',)
+    list_display = ('customer', 'date', 'source',)
     search_fields = ['customer',]
-    list_filter = ['date', 'customer',]
-
-
-# Register your models here.
-admin.site.register(Customer, CustomerAdmin)
-admin.site.register(Feedback, FeedbackAdmin)
+    list_filter = ['date', 'customer', 'source',]

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'rest_framework',
     'corsheaders',
     'get_metrics',
     'collect_opinions',
@@ -53,7 +54,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'main_app.urls'
@@ -133,7 +133,7 @@ REST_FRAMEWORK = {
 
 # CORS
 CORS_ORIGIN_WHITELIST = (
-    'localhost:8090',
-    '127.0.0.1:8090',
-    '127.0.0.1:8080',
+    'localhost:8120',
+    '127.0.0.1:8120',
+    '127.0.0.1:8120',
 )
