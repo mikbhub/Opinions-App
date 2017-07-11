@@ -19,5 +19,5 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     # url(r'^api/sentiment/', include('get_metrics.urls')),
-    url(r'^collect_opinions/', include('collect_opinions.urls')),
+    url(r'^collect_opinions/', include('collect_opinions.urls', namespace='collect_opinions')),
 ]
