@@ -6,7 +6,7 @@ from django.dispatch import receiver
 # Create your models here.
 class Metrics(models.Model):
 
-    feedback = models.ForeignKey(to=Feedback, null=True)
+    feedback = models.OneToOneField(to=Feedback, null=True)
     sentiment = models.DecimalField(max_digits=4, decimal_places=3, null=True)
 
     class Meta:

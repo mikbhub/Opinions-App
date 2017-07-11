@@ -11,7 +11,10 @@ class MetricsAdmin(admin.ModelAdmin):
     fields = [
         'feedback',
     ]
-    # list_display = ('',)
+    list_display = [
+        'sentiment',
+        'feedback',
+    ]
     # list_filter = ('',)
     # inlines = [
     #     Inline,
