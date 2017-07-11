@@ -13,11 +13,11 @@ from collect_opinions.serializers import CustomerSerializer, FeedbackSerializer
 # form-based views
 class FeebackForm(generic.edit.FormView):
 
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         form = FeedbackForm()
         return render(request, 'collect_opinions/feedback_form.html', {'form': form})
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         form = FeedbackForm(request.POST)
         if form.is_valid():
             customer, created = Customer.objects.update_or_create(

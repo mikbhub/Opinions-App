@@ -20,8 +20,8 @@ class Feedback(models.Model):
     text = models.TextField()
     date = models.DateTimeField(auto_now=True)
     customer = models.ForeignKey(to=Customer, related_name="feedbacks_send")
-    source = models.CharField(max_length=128, null=True)
-    # sentiment = models.DecimalField(max_digits=4, decimal_places=3, null=True)
+    source_type = models.CharField(max_length=128, null=True)
+    source_url = models.CharField(max_length=400, null=True)
 
     def __str__(self):
         return 'Cutomer {name}, posted on {date} via {source} '.format(
