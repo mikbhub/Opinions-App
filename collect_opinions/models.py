@@ -27,7 +27,7 @@ class Feedback(models.Model):
         return 'Cutomer {name}, posted on {date} via {source} '.format(
             name=self.customer.name,
             date=self.date,
-            source=self.source,
+            source=self.source_type,
         )
     
     class Meta:
