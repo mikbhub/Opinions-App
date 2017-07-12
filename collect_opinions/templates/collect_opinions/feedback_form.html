@@ -1,22 +1,16 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Customer feedback</title>
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-    <link href="" rel="stylesheet">
-</head>
+{% block title %}
+  Form
+{% endblock title %}
 
-<body>
-    <h1>New Feedback</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Save"></input>
-    </form>
-</body>
+{% block body %}
 
-</html>
+<h1>New Feedback</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save"></input>
+
+{% endblock body %}

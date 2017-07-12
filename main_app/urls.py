@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from material.frontend import urls as frontend_urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'', include(frontend_urls)),
     # url(r'^api/sentiment/', include('get_metrics.urls')),
     url(r'^collect_opinions/', include('collect_opinions.urls', namespace='collect_opinions')),
     url(r'^dispatch_to_support/', include('dispatch_to_support.urls', namespace='dispatch_to_support')),

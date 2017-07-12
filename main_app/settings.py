@@ -31,6 +31,11 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # django-material
+    'material',
+    'material.frontend',
+    'material.admin',
+    # original
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,6 +45,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'rest_framework',
     'corsheaders',
+    'main_app',
     'get_metrics',
     'collect_opinions',
     'dispatch_to_support',

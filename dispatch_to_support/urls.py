@@ -5,8 +5,9 @@ from  dispatch_to_support import views
 app_name = 'dispatch_to_support'
 
 urlpatterns = [
-    url(r'^queue/$', views.QueueView.as_view(), name='queue'),
+    url(r'^$', views.QueueView.as_view(), name='index'),
     url(r'^ticked_detail/(?P<pk>(\d)+)$', views.SupportTicketDetailView.as_view(), name='ticked-detail'),
+    # url('^$', generic.TemplateView.as_view(template_name="sales/index.html"), name="index"),
     # url(r'^feedback-form/success/$', views.FormSuccess.as_view(), name='form-success'),
     # url(r'^feedback-form/failure/$', views.FeebackForm.as_view(), name='form-failure'),
     # url(r'^api/customers/$', views.CustomerListView.as_view(), name='customers'),
