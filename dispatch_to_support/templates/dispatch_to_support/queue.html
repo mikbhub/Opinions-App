@@ -1,0 +1,17 @@
+{% extends "dispatch_to_support/base.html" %}
+
+{% block title %}
+  queue
+{% endblock title %}
+
+
+{% block body %}
+    <h2>Qeue</h2>
+    <p>gen: {{gen}}</p>
+    <p>queue: {{queue}}</p>
+    <p>sentiment: {{sentiment}}</p>
+    <p>customer: {{feedback.customer}}</p>
+    <p>source_url: <a href="{{feedback.source_url}}">{{feedback.1.source_url}}</a></p>
+    <p>text: {{feedback.text}}</p>
+{% endblock body %}
+    

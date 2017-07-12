@@ -20,4 +20,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     # url(r'^api/sentiment/', include('get_metrics.urls')),
     url(r'^collect_opinions/', include('collect_opinions.urls', namespace='collect_opinions')),
+    url(r'^dispatch_to_support/', include('dispatch_to_support.urls', namespace='dispatch_to_support')),
 ]

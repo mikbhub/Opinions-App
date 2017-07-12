@@ -27,7 +27,8 @@ class FeedbackSerializer(serializers.HyperlinkedModelSerializer):
             'customer_name',
             'customer_email',
             "customer",
-            "source",
+            "source_type",
+            "source_url",
             "date",
             "text",
         ]

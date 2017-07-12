@@ -23,8 +23,13 @@ class Feedback(models.Model):
     source_type = models.CharField(max_length=128, null=True)
     source_url = models.CharField(max_length=400, null=True)
 
+    @property
+    def short_text(self):
+        return self.text[:10]
+
     def __str__(self):
-        return 'Cutomer {name}, posted on {date} via {source} '.format(
+        return '{short_text}, customer: {name}, posted on {date} via {source} '.format(
+            short_text=self.short_text,
             name=self.customer.name,
             date=self.date,
             source=self.source_type,

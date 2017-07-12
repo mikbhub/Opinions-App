@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . models import Customer, Feedback
+from collect_opinions.models import Customer, Feedback
 
 
 @admin.register(Customer)
@@ -19,6 +19,19 @@ class FeedbackAdmin(admin.ModelAdmin):
     def customer_email(self, obj):
         return obj.customer.email
 
-    list_display = ('customer_name', 'customer_email', 'date', 'source_type',)
+    def sentiment(self, obj):
+        return obj.metrics.sentiment
+
+    def short_text(self, obj):
+        return obj.text[:15]
+
+    list_display = (
+        'short_text',
+        'customer_name',
+        'customer_email',
+        'date',
+        'source_type',
+        'sentiment',
+    )
     search_fields = ['customer',]
     list_filter = ['date', 'source_type',]

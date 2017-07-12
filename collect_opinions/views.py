@@ -27,7 +27,8 @@ class FeebackForm(generic.edit.FormView):
             Feedback.objects.create(
                 text=form.cleaned_data['text'],
                 customer=customer,
-                source='legacy-form'
+                source_type='legacy-form',
+                source_url='http://127.0.0.1:8110/collect_opinions/feedback-form/',
             )
             return redirect('collect_opinions:form-success')
         else:
