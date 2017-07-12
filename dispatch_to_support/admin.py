@@ -8,9 +8,13 @@ class SupportTicketAdmin(admin.ModelAdmin):
     '''
         Admin View for SupportTicket
     '''
+    def sentiment(self, obj):
+        return obj.feedback.metrics.sentiment
+
     list_display = (
         'feedback',
         'status',
+        'sentiment',
         'opened',
         'closed',
     )

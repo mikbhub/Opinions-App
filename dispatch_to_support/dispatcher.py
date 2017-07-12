@@ -18,17 +18,37 @@ class CustomerSupportDispatcher:
         # super(CLASS_NAME, self).__init__(*args, **kwargs)
 
     def populate_queue(self, query_set=SupportTicket.objects.filter(status__isnull=True)):
-        if query_set.exists():  # if query_set is not empty
-            for item in query_set:
-                priority_number = item.feedback.metrics.sentiment
-                data = item.feedback
+        """
+        Tries to populate inner priority queue with new tickets.
+        Returns True if populated the queue with new records,
+        False otherwise.
+        """
+        if not query_set.exists():  # if query_set is empty
+            return False
+        else:
+            for support_ticket in query_set:
+                priority_number = support_ticket.feedback.metrics.sentiment
+                data = {
+                    "feedback": support_ticket.feedback,
+                    "support_ticket": support_ticket,
+                }
                 self.queue.put((priority_number, data))
+            return True
 
     def give_next_customer_case(self):
         if self.queue.empty():
             # print('Im empty')
-            self.populate_queue()
-            return self.give_next_customer_case()
+            if self.populate_queue():
+                return self.give_next_customer_case()
+                
+            else:
+                return 0, {
+                    'feedback': None,
+                    'support_ticket': None,
+                }
         else:
             # print('Im not empty')
-            return self.queue.get()
+            priority_number, data = self.queue.get()
+            data["support_ticket"].status=0
+            data["support_ticket"].save()
+            return priority_number, data

@@ -1,7 +1,11 @@
 from django.shortcuts import render
 from django.views import View
+from django.views.generic import DetailView, UpdateView
 from dispatch_to_support.dispatcher import CustomerSupportDispatcher
+from dispatch_to_support.models import SupportTicket
 
+
+# some debug
 def sample_gen():
     i = 1
     while i:
@@ -15,7 +19,8 @@ class QueueView(View):
 
     def get(self, request):
         # dispatcher.populate_queue()
-        sentiment, feedback = dispatcher.give_next_customer_case()
+        sentiment, data = dispatcher.give_next_customer_case()
+        feedback = data["feedback"]
         context = {
             'gen': next(gen),
             'queue': dispatcher.queue.empty(),
@@ -23,3 +28,9 @@ class QueueView(View):
             'feedback': feedback,
         }
         return render(request, 'dispatch_to_support/queue.html', context)
+
+
+
+class SupportTicketDetailView(DetailView):
+    model = SupportTicket
+    template_name = "dispatch_to_support/support_ticket_detail.html"

@@ -7,11 +7,16 @@
 
 {% block body %}
     <h2>Qeue</h2>
-    <p>gen: {{gen}}</p>
-    <p>queue: {{queue}}</p>
-    <p>sentiment: {{sentiment}}</p>
-    <p>customer: {{feedback.customer}}</p>
-    <p>source_url: <a href="{{feedback.source_url}}">{{feedback.1.source_url}}</a></p>
-    <p>text: {{feedback.text}}</p>
+    {% if feedback %}
+      <p>gen: {{gen}}</p>
+      <p>queue: {{queue}}</p>
+      <p>sentiment: {{sentiment}}</p>
+      <p>customer: {{feedback.customer}}</p>
+      <p>source_url: <a href="{{feedback.source_url}}">{{feedback.1.source_url}}</a></p>
+      <p>text: {{feedback.text}}</p>
+    {% else %}
+    <p>No more feedback to process</p>
+    {% endif %}
+   
 {% endblock body %}
     
