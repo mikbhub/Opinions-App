@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'rest_framework',
     'corsheaders',
+    # apps
+    'main_app',
     'get_metrics',
     'collect_opinions',
     'dispatch_to_support',
