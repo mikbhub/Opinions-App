@@ -11,8 +11,17 @@
     </head>
     <body>
         <h1>Opinions</h1>
+
         {% block body %}
         
         {% endblock body %}
+        
     </body>
+
+    {% block footer %}
+        <footer>
+            <p>logged as {{ user }}</p>
+        </footer>
+    {% endblock footer %}
+
 </html>

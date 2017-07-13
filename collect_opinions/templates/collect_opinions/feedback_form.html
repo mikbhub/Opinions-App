@@ -6,10 +6,13 @@
 
 
 {% block body %}
-    <h1>New Feedback</h1>
+    <h2>New Feedback</h2>
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Save"></input>
     </form>
 {% endblock body %}
+
+{% block footer %}
+{% endblock footer %}

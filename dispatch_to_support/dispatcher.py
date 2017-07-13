@@ -1,7 +1,6 @@
 from queue import PriorityQueue
 from dispatch_to_support.models import SupportTicket
-
-PriorityQueue.join
+from django.utils import timezone
 
 class CustomerSupportDispatcher:
     """
@@ -37,8 +36,10 @@ class CustomerSupportDispatcher:
             return False
         else:
             for support_ticket in query_set:
-                print('appending to queue...')
-                priority_number = support_ticket.feedback.metrics.sentiment
+                sentiment = float(support_ticket.feedback.metrics.sentiment)
+                time_lag = (timezone.localtime() - support_ticket.feedback.date).days
+                priority_number = sentiment - time_lag
+                print(f'appending to queue... with sentiment: {sentiment}, time_lag: {time_lag}, priority: {priority_number}')
                 data = {
                     "feedback": support_ticket.feedback,
                     "support_ticket": support_ticket,
