@@ -1,7 +1,7 @@
 from django.db import models
 from collect_opinions.models import Feedback
 from django.dispatch import receiver
-
+from get_metrics.nltk_sentiment import analyze_sentiment_using_vader
 
 # Create your models here.
 class Metrics(models.Model):
@@ -25,5 +25,6 @@ class Metrics(models.Model):
 @receiver(models.signals.post_save, sender=Feedback)
 def create_empty_metrics(instance, **kwargs):
     Metrics.objects.create(
-        feedback=instance
+        feedback=instance,
+        sentiment=analyze_sentiment_using_vader(instance.text)
     )
