@@ -1,6 +1,7 @@
 from queue import PriorityQueue
 from dispatch_to_support.models import SupportTicket
 
+PriorityQueue.join
 
 class CustomerSupportDispatcher:
     """
@@ -16,17 +17,27 @@ class CustomerSupportDispatcher:
     def __init__(self, *args, **kwargs):
         self.queue = PriorityQueue()
         # super(CLASS_NAME, self).__init__(*args, **kwargs)
+    
+    
+    # @staticmethod
+    # # @property
+    # def support_tickets():
+        # return SupportTicket.objects.filter(status__isnull=True)
 
-    def populate_queue(self, query_set=SupportTicket.objects.filter(status__isnull=True)):
+    def populate_queue(self):
         """
         Tries to populate inner priority queue with new tickets.
         Returns True if populated the queue with new records,
         False otherwise.
         """
+        query_set = SupportTicket.objects.filter(status__isnull=True)
+        print('Query set id: {}'.format(id(query_set)))
         if not query_set.exists():  # if query_set is empty
+            print('The query set exists returned False')
             return False
         else:
             for support_ticket in query_set:
+                print('appending to queue...')
                 priority_number = support_ticket.feedback.metrics.sentiment
                 data = {
                     "feedback": support_ticket.feedback,
@@ -37,18 +48,20 @@ class CustomerSupportDispatcher:
 
     def give_next_customer_case(self):
         if self.queue.empty():
-            # print('Im empty')
+            print('Im empty')
             if self.populate_queue():
+                print('queue populated')
                 return self.give_next_customer_case()
-                
             else:
+                print('returning None')
                 return 0, {
                     'feedback': None,
                     'support_ticket': None,
                 }
         else:
-            # print('Im not empty')
+            print('Im not empty, I hold {} items'.format(self.queue.qsize()))
             priority_number, data = self.queue.get()
+            print('Getting next element from queue {}'. format(data))
             data["support_ticket"].status=0
             data["support_ticket"].save()
             return priority_number, data

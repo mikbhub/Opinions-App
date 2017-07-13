@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+  queue
+{% endblock title %}
+
+
+{% block body %}
+
+    <h2>Qeue</h2>
+    <form action="" method="POST">
+      {% csrf_token %}
+      <input type="submit" name="" value="get next case">
+    </form>
+   
+{% endblock body %}
+    

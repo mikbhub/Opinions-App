@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import DetailView, UpdateView
 from dispatch_to_support.dispatcher import CustomerSupportDispatcher
@@ -18,6 +18,10 @@ dispatcher = CustomerSupportDispatcher()
 class QueueView(View):
 
     def get(self, request):
+        return render(request, 'dispatch_to_support/get_case.html')
+
+    def post(self, request):
+        # return redirect()
         # dispatcher.populate_queue()
         sentiment, data = dispatcher.give_next_customer_case()
         feedback = data["feedback"]
@@ -28,7 +32,6 @@ class QueueView(View):
             'feedback': feedback,
         }
         return render(request, 'dispatch_to_support/queue.html', context)
-
 
 
 class SupportTicketDetailView(DetailView):
