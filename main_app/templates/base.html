@@ -3,24 +3,25 @@
     <head>
         <title>
             {% block title %}
-              
+              Opinions App
             {% endblock title %}
         </title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
-        <h1>Opinions</h1>
+        <h1>Opinions APP</h1>
 
         {% block body %}
         
         {% endblock body %}
-        
+
     </body>
 
     {% block footer %}
         <footer>
             <p>logged as {{ user }}</p>
+            <p><a href="{% url 'dispatch_to_support:dashboard' %}">Dashboard</a></p>
         </footer>
     {% endblock footer %}
 

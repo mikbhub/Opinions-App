@@ -35,6 +35,11 @@ class FeebackForm(generic.edit.FormView):
             return HttpResponse(f'The form was invalid<br>{form}')
 
 
+class FormSuccess(View):
+    def get(self, request):
+        return render(request, 'collect_opinions/form_success.html')
+
+
 # api endpoints
 class CustomerDetailView(generics.RetrieveUpdateDestroyAPIView):
     # lookup_field = (

@@ -1,1 +1,15 @@
-<h1>Success</h1>
+{% extends "base.html" %}
+
+{% block title %}
+  Form
+{% endblock title %}
+
+
+{% block body %}
+    <h2>New Feedback</h2>
+    <p>Thank you for your opinion, we'll get in touch soon</p>
+{% endblock body %}
+
+{% block footer %}
+<p><a href="{% url 'collect_opinions:feedback-form' %}">Write new opinion</a></p>
+{% endblock footer %}

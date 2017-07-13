@@ -1,7 +1,7 @@
 from django.db import models
 from django.dispatch import receiver
 from django.urls import reverse
-
+from django.contrib.auth.models import User
 from collect_opinions.models import Feedback
 
 
@@ -24,6 +24,8 @@ class SupportTicket(models.Model):
     # date close
     closed = models.DateTimeField(null=True, blank=True)
 
+    support_person = models.ForeignKey(to=User, null=True, blank=True)
+
 
     class Meta:
         """Meta definition for SupportTicket."""
@@ -39,6 +41,9 @@ class SupportTicket(models.Model):
     
     def get_absolute_url(self):
         return reverse('dispatch_to_support:ticket-detail', kwargs={'pk': self.pk})
+    
+    def get_update_url(self):
+        return reverse('dispatch_to_support:ticket-update', kwargs={'pk': self.pk})
 
 
 @receiver(models.signals.post_save, sender=Feedback)

@@ -47,12 +47,12 @@ class CustomerSupportDispatcher:
                 self.queue.put((priority_number, data))
             return True
 
-    def give_next_customer_case(self):
+    def give_next_customer_case(self, give_to, **kwargs):
         if self.queue.empty():
             print('Im empty')
             if self.populate_queue():
                 print('queue populated')
-                return self.give_next_customer_case()
+                return self.give_next_customer_case(give_to, **kwargs)
             else:
                 print('returning None')
                 return 0, {
@@ -63,6 +63,8 @@ class CustomerSupportDispatcher:
             print('Im not empty, I hold {} items'.format(self.queue.qsize()))
             priority_number, data = self.queue.get()
             print('Getting next element from queue {}'. format(data))
-            data["support_ticket"].status=0
+            data["support_ticket"].status = 0
+            data["support_ticket"].support_person = give_to
+            data["support_ticket"].opened = timezone.localtime()
             data["support_ticket"].save()
             return priority_number, data

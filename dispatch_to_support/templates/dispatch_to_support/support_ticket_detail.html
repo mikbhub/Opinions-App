@@ -9,12 +9,13 @@
     <p>Status: {{object.get_status_display}}</p>
     <p>Sentiment: {{object.feedback.metrics.sentiment}}</p>
     <p>Feedback: {{object.feedback}}</p>
-    <p>Customer Name: {{object.feedback.customer.name}}, <a href="mailto:{{object.feedback.customer.email}}" target="_top">Send Mail</a></p>
+    <p>Customer Name: {{object.feedback.customer.name}}, <a href="mailto:{{object.feedback.customer.email}}" target="_top">{{ object.feedback.customer.email }}</a></p>
     <p>Source_type: {{object.feedback.source_type}}</p>
     <p>Source_url: {{object.feedback.source_url}}</p>
     <p>Text: {{object.feedback.text}}</p>
     <form action="" method="POST">
         {% csrf_token %}
+        {{form.as_p}}
         <input type="submit" name="" value="Close ticket">
     </form>
     

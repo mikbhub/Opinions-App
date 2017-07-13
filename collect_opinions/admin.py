@@ -5,9 +5,12 @@ from collect_opinions.models import Customer, Feedback
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
 
-    list_display = ('name', 'email',)
+    def opinions(self, obj):
+        return obj.feedbacks_send.count()
+
+    list_display = ('name', 'email', 'opinions',)
     search_fields = ['name', 'email',]
-    # list_filter = ['email',]
+    # list_filter = ['opinions',]
 
 
 @admin.register(Feedback)

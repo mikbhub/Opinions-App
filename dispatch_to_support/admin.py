@@ -11,12 +11,17 @@ class SupportTicketAdmin(admin.ModelAdmin):
     def sentiment(self, obj):
         return obj.feedback.metrics.sentiment
 
+    def customer(self, obj):
+        return obj.feedback.customer
+
     list_display = (
-        'feedback',
+        'customer',
         'status',
         'sentiment',
         'opened',
         'closed',
+        'support_person',
+        'feedback',
     )
     list_filter = (
         'status',
