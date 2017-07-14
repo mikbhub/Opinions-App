@@ -12,6 +12,14 @@ class SupportTicketForm(forms.Form):
     text = forms.CharField(widget=forms.Textarea)
 
 
+class ResponseForm(forms.ModelForm):
+
+    class Meta:
+        model = Response
+        fields = (
+            'text',
+        )
+
 # class FeedbackForm(forms.ModelForm):
 
 #     # customer = forms.EmailField()

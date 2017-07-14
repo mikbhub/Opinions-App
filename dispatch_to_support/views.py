@@ -4,10 +4,13 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views import View
+from django.views.generic.edit import FormView
 from django.views.generic import DetailView, UpdateView, CreateView
 from dispatch_to_support.dispatcher import CustomerSupportDispatcher
 from dispatch_to_support.models import SupportTicket, Response
 from django.views.generic.detail import SingleObjectMixin
+from dispatch_to_support.forms import ResponseForm
+
 
 # some debug
 def sample_gen():
@@ -116,24 +119,56 @@ class DashboardView(LoginRequiredMixin, View):
 
 
 
-class ResponseCreateView(CreateView):
-    pk_url_kwarg = 'ticket_pk'
-    # success_url= redirect('dispatch_to_support:ticket-update', pk=object.get_object())
-    success_url= reverse_lazy('dispatch_to_support:dashboard')
-    model = Response
-    fields = [
-        'text',
-        # 'support_ticket',
-        # 'support_person',
-    ]
-    template_name = "dispatch_to_support/response_form.html"
+# class ResponseCreateView(CreateView):
+#     pk_url_kwarg = 'ticket_pk'
+#     # success_url= redirect('dispatch_to_support:ticket-update', pk=object.get_object())
+#     success_url= reverse_lazy('dispatch_to_support:dashboard')
+#     model = Response
+#     fields = [
+#         'text',
+#         # 'support_ticket',
+#         # 'support_person',
+#     ]
+#     template_name = "dispatch_to_support/response_form.html"
 
-    def form_valid(self, form):
+#     def form_valid(self, form):
         
-        form.instance.support_person = self.request.user
-        form.instance.support_ticket = self.get_object()
-        return super(ResponseCreateView, self).form_valid(form)
+#         form.instance.support_person = self.request.user
+#         form.instance.support_ticket = self.get_object()
+#         return super(ResponseCreateView, self).form_valid(form)
+
+#     def post(self, request, ticket_pk, *args, **kwargs):
+
+#         return super(ResponseCreateView, self).post(request, *args, **kwargs)
+
+
+class ResponseCreateView(FormView):
+    template_name = "dispatch_to_support/response_form.html"
+    form_class = ResponseForm
+    success_url= reverse_lazy('dispatch_to_support:dashboard')
+
+    # def form_valid(self, form):
+    #     form.instance.support_person = self.request.user
+    #     form.instance.support_ticket = self.request.ticket_pk
+    #     return super(ResponseCreateView, self).form_valid(form) 
 
     def post(self, request, ticket_pk, *args, **kwargs):
-        
-        return super(ResponseCreateView, self).post(request, *args, **kwargs)
+        # def form_valid(self, form):
+        #     form.instance.support_person = self.request.user
+        #     form.instance.support_ticket = ticket_pk
+        #     return super(ResponseCreateView, self).form_valid(form)
+        form = ResponseForm(data=request.POST)
+        form.instance.support_person = self.request.user
+        form.instance.support_ticket = SupportTicket.objects.get(pk=ticket_pk)
+        form.save()
+        # return super(ResponseCreateView, self).post(request, *args, **kwargs) 
+        return redirect('dispatch_to_support:ticket-update', pk=ticket_pk)
+
+
+    # def post(self, request):
+    #     form = UserAddForm(data=request.POST)
+    #     if form.is_valid():
+    #         User.objects.create_user(**form.cleaned_data)
+    #         return redirect('exercises:user-login')
+    #     else:
+    #         return render(request, 'exercises/user_add_form.html', {'form': form})
