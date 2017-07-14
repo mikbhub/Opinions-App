@@ -51,3 +51,19 @@ def create_empty_metrics(instance, **kwargs):
     SupportTicket.objects.create(
         feedback=instance
     )
+
+
+class Response(models.Model):
+    """Model definition for Response."""
+
+    # TODO: Define fields here
+    text = models.TextField()
+    support_ticket = models.ForeignKey(to=SupportTicket, null=True, related_name='responses_by_support')
+    support_person = models.ForeignKey(to=User, null=True, blank=True, related_name='responses_given')
+    date = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        """Meta definition for Response."""
+
+        verbose_name = 'Response'
+        verbose_name_plural = 'Responses'

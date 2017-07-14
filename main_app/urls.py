@@ -14,10 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
+from django.urls import reverse_lazy
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^accounts/login/$', auth_views.LoginView.as_view(template_name='main_app/login.html'), name='login'),
+    url(r'^accounts/logout/$', auth_views.LogoutView.as_view(template_name='main_app/login.html', next_page=reverse_lazy('login')), name='logout'),
     # url(r'^api/sentiment/', include('get_metrics.urls')),
     url(r'^collect_opinions/', include('collect_opinions.urls', namespace='collect_opinions')),
     url(r'^dispatch_to_support/', include('dispatch_to_support.urls', namespace='dispatch_to_support')),

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from dispatch_to_support.models import SupportTicket
+from dispatch_to_support.models import SupportTicket, Response
 
 
 # Register your models here.
@@ -36,3 +36,16 @@ class SupportTicketAdmin(admin.ModelAdmin):
     # search_fields = ('',)
 
 
+@admin.register(Response)
+class ResponseAdmin(admin.ModelAdmin):
+    '''
+        Admin View for Response
+    '''
+    # list_display = ('',)
+    # list_filter = ('',)
+    # inlines = [
+    #     Inline,
+    # ]
+    # raw_id_fields = ('',)
+    # readonly_fields = ('',)
+    # search_fields = ('',)

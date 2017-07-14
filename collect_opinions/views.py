@@ -90,3 +90,8 @@ class FeedbackListView(generics.ListCreateAPIView):
 #             serializer.save()
 #             return Response(serializer.data, status=status.HTTP_201_CREATED)
 #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class FeedbackByCusotmerListView(generic.DetailView):
+    model = Customer
+    template_name = "collect_opinions/feedbacks_by_customer.html"

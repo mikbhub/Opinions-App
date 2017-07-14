@@ -18,9 +18,13 @@
 
     </body>
 
+    {% block content %}
+    
+    {% endblock content %}
+
     {% block footer %}
         <footer>
-            <p>logged as {{ user }}</p>
+            <p>logged as {{ user }} <a href="{% url 'logout' %}">Logout</a></p>
             <p><a href="{% url 'dispatch_to_support:dashboard' %}">Dashboard</a></p>
         </footer>
     {% endblock footer %}
