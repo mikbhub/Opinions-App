@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^ticked_update/(?P<pk>(\d)+)$', views.SupportTicketUpdateView.as_view(), name='ticket-update'),
     # url(r'^response_create/$', views.ResponseCreateView.as_view(), name='response-create'),
     url(r'^response_create/(?P<ticket_pk>(\d)+)$', views.ResponseCreateView.as_view(), name='response-create'),
+    url(r'^response_detail/(?P<pk>(\d)+)$', views.ResponseDetailView.as_view(), name='response-detail'),
     # url(r'^feedback-form/success/$', views.FormSuccess.as_view(), name='form-success'),
     # url(r'^feedback-form/failure/$', views.FeebackForm.as_view(), name='form-failure'),
     # url(r'^api/customers/$', views.CustomerListView.as_view(), name='customers'),

@@ -22,7 +22,8 @@ class CustomerSupportDispatcher:
     # # @property
     # def support_tickets():
         # return SupportTicket.objects.filter(status__isnull=True)
-
+    # def put_to_queue(self):
+    #     raise 
     def populate_queue(self):
         """
         Tries to populate inner priority queue with new tickets.

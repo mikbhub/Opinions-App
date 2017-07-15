@@ -3,7 +3,7 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.contrib.auth.models import User
 from collect_opinions.models import Feedback
-
+from django.core.mail import send_mail
 
 # Create your models here.
 class SupportTicket(models.Model):
@@ -45,6 +45,10 @@ class SupportTicket(models.Model):
     def get_update_url(self):
         return reverse('dispatch_to_support:ticket-update', kwargs={'pk': self.pk})
 
+    @property
+    def sorted_responses(self):
+        return self.responses_by_support.order_by('-date')
+
 
 @receiver(models.signals.post_save, sender=Feedback)
 def create_empty_metrics(instance, **kwargs):
@@ -67,3 +71,25 @@ class Response(models.Model):
 
         verbose_name = 'Response'
         verbose_name_plural = 'Responses'
+    
+    @property
+    def short_text(self):
+        return self.text[:10]
+
+    def __str__(self):
+        return self.short_text
+
+    def get_absolute_url(self):
+        return reverse('dispatch_to_support:response-detail', kwargs={'pk': self.pk})
+
+
+@receiver(models.signals.post_save, sender=Response)
+def send_mail_to_customer(instance, **kwargs):
+    send_mail(
+        subject='Subject here',
+        message=instance.text,
+        from_email='from@example.com',
+        recipient_list=['to@example.com'],
+        fail_silently=True,
+    )
+    print('sending mail')

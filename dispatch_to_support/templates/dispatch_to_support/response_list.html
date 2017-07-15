@@ -1,0 +1,5 @@
+<ol>
+    {% for response in object.sorted_responses %}
+      <li>{{response.date}}<a href="{{response.get_absolute_url}}">{{response}}</a></li>
+    {% endfor %}
+</ol>

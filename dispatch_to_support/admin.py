@@ -41,7 +41,12 @@ class ResponseAdmin(admin.ModelAdmin):
     '''
         Admin View for Response
     '''
-    # list_display = ('',)
+    # list_display = (
+    #     # 'short_text',
+    #     # 'support_ticket'
+    #     # 'support_person',
+    #     # 'date',
+    #     )
     # list_filter = ('',)
     # inlines = [
     #     Inline,

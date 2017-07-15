@@ -1,5 +1,5 @@
 # TODO:
-*local jquery
+- local jquery
 # final project
 Django apps to collect, process and dispatch customer feedback / opinions.
 

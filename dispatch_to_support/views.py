@@ -4,12 +4,13 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views import View
-from django.views.generic.edit import FormView
-from django.views.generic import DetailView, UpdateView, CreateView
-from dispatch_to_support.dispatcher import CustomerSupportDispatcher
-from dispatch_to_support.models import SupportTicket, Response
+from django.views.generic import CreateView, DetailView, UpdateView
 from django.views.generic.detail import SingleObjectMixin
+from django.views.generic.edit import FormView
+
+from dispatch_to_support.dispatcher import CustomerSupportDispatcher
 from dispatch_to_support.forms import ResponseForm
+from dispatch_to_support.models import Response, SupportTicket
 
 
 # some debug
@@ -172,3 +173,8 @@ class ResponseCreateView(FormView):
     #         return redirect('exercises:user-login')
     #     else:
     #         return render(request, 'exercises/user_add_form.html', {'form': form})
+
+
+class ResponseDetailView(DetailView):
+    model = Response
+    template_name = "dispatch_to_support/response_detail.html"

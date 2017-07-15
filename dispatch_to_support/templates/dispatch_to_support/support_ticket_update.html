@@ -25,6 +25,11 @@
     </form>
 
     <section>
+        <h3>Previous responses</h3>
+        {% include "dispatch_to_support/response_list.html" %}
+    </section>
+
+    <section>
         <h3>Past tickets involving {{object.feedback.customer}}</h3>
             <ol>
                 {% for ticket in customer_past_ticket_list %}
