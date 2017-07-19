@@ -19,16 +19,17 @@ class CustomerTests(APITestCase):
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-        # url = reverse('collect_opinions:customer-detail', kwargs={'pk': 1})
-        # response = self.client.get(url)
+        url = reverse('collect_opinions:customer-detail', kwargs={'pk': 1})
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         # # data = {'name': 'DabApps'}
         # # response = self.client.get('/users/4/')
-        # self.assertEqual(response.data, {
-        #     "customer_url": "http://127.0.0.1:8110/collect_opinions/api/customers/1",
-        #     "email": "albergiza@mail.com",
-        #     "name": "Albert Giza"
-        # }
-        # )
+        self.assertEqual(response.data, {
+            "customer_url": "http://127.0.0.1:8110/collect_opinions/api/customers/1",
+            "email": "albergiza@mail.com",
+            "name": "Albert Giza"
+        }
+        )
         # self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         # self.assertEqual(Account.objects.count(), 1)
         # self.assertEqual(Account.objects.get().name, 'DabApps')

@@ -90,7 +90,6 @@ WSGI_APPLICATION = 'main_app.wsgi.application'
 #     }
 # }
 from .secret import DATABASES
-
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
