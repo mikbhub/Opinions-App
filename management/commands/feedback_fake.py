@@ -26,7 +26,7 @@ class FeedbackTextProvider(BaseProvider):
 fake.add_provider(FeedbackTextProvider)
 
 # We can now use the destination method:
-print(fake.opinion())
+# print(fake.opinion())
 
-def create_feedback():
+# def create_feedback():
     
