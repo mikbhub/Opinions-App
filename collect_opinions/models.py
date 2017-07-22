@@ -24,7 +24,7 @@ class FeedbackManager(models.Manager):
     """
     
     # TODO: implement 'create' method that creates or updates customer instance realted to feedback instance
-    def create_feedback_from_Form_or_Api(self, email, name, **feedback_kwargs):
+    def create_feedback_from_Form_or_Api(self, email, name, *feedback_args, **feedback_kwargs):
         """
         Creates new Feedback instance and assigns it to Customer from the database.
         If customer is not in the database, creates Customer instance and saves it to the database.
@@ -34,7 +34,7 @@ class FeedbackManager(models.Manager):
                 defaults={'name': name},
             )
         feedback_kwargs.update({'customer': customer})
-        feedback = Feedback.objects.create(**feedback_kwargs)
+        feedback = Feedback.objects.create(*feedback_args, **feedback_kwargs)
         return feedback
 
 
