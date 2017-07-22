@@ -23,7 +23,6 @@ class FeedbackManager(models.Manager):
     Encapsulates Feedback creation and updating.
     """
     
-    # TODO: implement 'create' method that creates or updates customer instance realted to feedback instance
     def create_feedback_from_Form_or_Api(self, email, name, *feedback_args, **feedback_kwargs):
         """
         Creates new Feedback instance and assigns it to Customer from the database.
@@ -50,6 +49,7 @@ class Feedback(models.Model):
     source_url = models.CharField(max_length=400, null=True)  # internet location
     location = models.CharField(max_length=60, null=True, blank=True)  # geolocation
 
+    # use custom ModelManger
     objects = FeedbackManager()
 
     @property

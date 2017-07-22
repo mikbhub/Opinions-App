@@ -32,3 +32,22 @@ class FeedbackSerializer(serializers.HyperlinkedModelSerializer):
             "date",
             "text",
         ]
+
+
+class FeedbackCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Feedback
+        # TODO: define fields
+        fields = [
+            'customer_name',
+            'customer_email',
+            "customer",
+            "source_type",
+            "source_url",
+            "date",
+            "text",
+        ]
+        # TODO: implement explicit create() method
+        def create(self, validated_data):
+            raise NotImplementedError
