@@ -1,5 +1,6 @@
 from django.http import Http404
 from django.shortcuts import HttpResponse, redirect, render
+from django.urls import reverse_lazy
 from django.views import View, generic
 from rest_framework import status, generics
 from rest_framework.response import Response
@@ -20,16 +21,24 @@ class FeebackForm(generic.edit.FormView):
     def post(self, request, *args, **kwargs):
         form = FeedbackForm(request.POST)
         if form.is_valid():
-            customer, created = Customer.objects.update_or_create(
+            Feedback.objects.create_feedback_from_Form_or_Api(
                 email=form.cleaned_data['email'],
-                defaults={'name': form.cleaned_data['name']},
-            )
-            Feedback.objects.create(
+                name=form.cleaned_data['name'],
                 text=form.cleaned_data['text'],
-                customer=customer,
                 source_type='legacy-form',
-                source_url='http://127.0.0.1:8110/collect_opinions/feedback-form/',
+                source_url=request.build_absolute_uri(),
             )
+            # customer, created = Customer.objects.update_or_create(
+            #     email=form.cleaned_data['email'],
+            #     defaults={'name': form.cleaned_data['name']},
+            # )
+            # Feedback.objects.create(
+            #     text=form.cleaned_data['text'],
+            #     customer=customer,
+            #     source_type='legacy-form',
+            #     source_url=request.build_absolute_uri(),
+                # source_url=reverse_lazy('collect_opinions:feedback-form'),
+            # )
             return redirect('collect_opinions:form-success')
         else:
             return HttpResponse(f'The form was invalid<br>{form}')
