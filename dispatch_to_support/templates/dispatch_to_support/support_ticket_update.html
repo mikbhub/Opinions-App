@@ -11,7 +11,7 @@
     <p>Feedback: {{object.feedback}}</p>
     <p>Customer Name: {{object.feedback.customer.name}}, <a href="mailto:{{object.feedback.customer.email}}" target="_top">{{ object.feedback.customer.email }}</a></p>
     <p>Source_type: {{object.feedback.source_type}}</p>
-    <p>Source_url: {{object.feedback.source_url}}</p>
+    <p>Source_url: <a href="{{object.feedback.source_url}}">{{object.feedback.source_url}}</a></p>
     <p>Text: {{object.feedback.text}}</p>
 
     <form action="{% url 'dispatch_to_support:response-create' ticket_pk=object.pk %}" method="GET">
