@@ -11,7 +11,7 @@ from .serializers import CustomerSerializer, FeedbackSerializer
 
 
 class TestGetSingleCustomer(APITestCase):
-    """ Test module for GET single customer API """
+    """ Test module for GET single customer via API """
 
     def setUp(self):
         fake = Factory.create()
