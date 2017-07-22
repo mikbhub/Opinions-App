@@ -28,17 +28,6 @@ class FeebackForm(generic.edit.FormView):
                 source_type='legacy-form',
                 source_url=request.build_absolute_uri(),
             )
-            # customer, created = Customer.objects.update_or_create(
-            #     email=form.cleaned_data['email'],
-            #     defaults={'name': form.cleaned_data['name']},
-            # )
-            # Feedback.objects.create(
-            #     text=form.cleaned_data['text'],
-            #     customer=customer,
-            #     source_type='legacy-form',
-            #     source_url=request.build_absolute_uri(),
-                # source_url=reverse_lazy('collect_opinions:feedback-form'),
-            # )
             return redirect('collect_opinions:form-success')
         else:
             return HttpResponse(f'The form was invalid<br>{form}')
