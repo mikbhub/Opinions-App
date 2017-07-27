@@ -13,7 +13,6 @@ from collect_opinions.serializers import (
 
 # form-based views
 class FeebackForm(generic.edit.FormView):
-
     """
     Form for posting new feedback.
     """

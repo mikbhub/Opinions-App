@@ -15,7 +15,6 @@ class CustomerSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class FeedbackSerializer(serializers.HyperlinkedModelSerializer):
-
     customer_name = serializers.ReadOnlyField(source='customer.name')
     customer_email = serializers.ReadOnlyField(source='customer.email')
     customer = serializers.HyperlinkedRelatedField(
@@ -46,7 +45,6 @@ class CustomerRawSerializer(serializers.Serializer):
 
 
 class FeedbackCreateSerializer(serializers.ModelSerializer):
-
     """
     A nested writtable serializer with explicit create() method.
     Takes care of customer creation if not already in the database.
@@ -58,8 +56,6 @@ class FeedbackCreateSerializer(serializers.ModelSerializer):
         model = Feedback
 
         fields = [
-            # 'customer_name',
-            # 'customer_email',
             "customer",
             "source_type",
             "source_url",
@@ -70,10 +66,8 @@ class FeedbackCreateSerializer(serializers.ModelSerializer):
     # explicit create() method
     def create(self, validated_data):
         customer = validated_data.pop('customer')
-        email = customer['email']
-        name = customer['name']
         return Feedback.objects.create_feedback_from_Form_or_Api(
-            name=name,
-            email=email,
+            name=customer['name'],
+            email=customer['email'],
             **validated_data,
         )
