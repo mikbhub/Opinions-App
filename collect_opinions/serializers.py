@@ -16,13 +16,12 @@ class CustomerSerializer(serializers.HyperlinkedModelSerializer):
 
 class FeedbackSerializer(serializers.HyperlinkedModelSerializer):
 
-    # customer = serializers.StringRelatedField(many=False)
     customer_name = serializers.ReadOnlyField(source='customer.name')
     customer_email = serializers.ReadOnlyField(source='customer.email')
     customer = serializers.HyperlinkedRelatedField(
         view_name="collect_opinions:customer-detail",
-        read_only=False,
-        queryset=Customer.objects.all(),
+        read_only=True,
+        # queryset=Customer.objects.all(),
     )
 
     class Meta:
@@ -38,16 +37,26 @@ class FeedbackSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
-# TODO: leave other serializers as they are and write separate serialize,
-# view and named url just for POSTing new feedback.
+class CustomerRawSerializer(serializers.Serializer):
+    """
+    QuickFix to ommit email `unique` constraint on `customer`.
+    """
+    email = serializers.EmailField(required=True)
+    name = serializers.CharField(required=True)
+
+
 class FeedbackCreateSerializer(serializers.ModelSerializer):
 
-    customer = CustomerSerializer()
+    """
+    A nested writtable serializer with explicit create() method.
+    Takes care of customer creation if not already in the database.
+    """
+
+    customer = CustomerRawSerializer()
 
     class Meta:
         model = Feedback
-        # TODO: define fields
-        
+
         fields = [
             # 'customer_name',
             # 'customer_email',
@@ -57,30 +66,14 @@ class FeedbackCreateSerializer(serializers.ModelSerializer):
             "date",
             "text",
         ]
-    # TODO: implement explicit create() method
+
+    # explicit create() method
     def create(self, validated_data):
-        print('Starting create()')
-        print(f'Validated data: {validated_data}')
         customer = validated_data.pop('customer')
         email = customer['email']
         name = customer['name']
         return Feedback.objects.create_feedback_from_Form_or_Api(
             name=name,
             email=email,
-            **validated_data
+            **validated_data,
         )
-        # raise NotImplementedError
-
-
-# class UserSerializer(serializers.ModelSerializer):
-#     profile = ProfileSerializer()
-
-#     class Meta:
-#         model = User
-#         fields = ('username', 'email', 'profile')
-
-#     def create(self, validated_data):
-#         profile_data = validated_data.pop('profile')
-#         user = User.objects.create(**validated_data)
-#         Profile.objects.create(user=user, **profile_data)
-#         return user
