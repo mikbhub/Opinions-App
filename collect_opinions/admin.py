@@ -26,7 +26,7 @@ class FeedbackAdmin(admin.ModelAdmin):
         return obj.metrics.sentiment
 
     def short_text(self, obj):
-        return obj.text[:15]
+        return obj.short_text
 
     list_display = (
         'short_text',
