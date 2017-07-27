@@ -13,4 +13,5 @@ urlpatterns = [
     # url(r'^api/customers/(?P<name>(\w)+)', views.CustomerDetailView.as_view(), name='api-customer-detail'),
     url(r'^api/feedbacks/$', views.FeedbackListView.as_view(), name='feedbacks'),
     url(r'^api/feedbacks/(?P<pk>(\d)+)', views.FeedbackDetailView.as_view(), name='feedback-detail'),
+    url(r'^api/feedbacks/new/$', views.FeedbackCreateView.as_view(), name='feedback-create'),
 ]

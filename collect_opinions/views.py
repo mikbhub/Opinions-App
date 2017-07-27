@@ -2,13 +2,18 @@ from django.http import Http404
 from django.shortcuts import HttpResponse, redirect, render
 from django.urls import reverse_lazy
 from django.views import View, generic
-from rest_framework import status, generics
+from rest_framework import generics as rest_generics
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from collect_opinions.forms import FeedbackForm
 from collect_opinions.models import Customer, Feedback
-from collect_opinions.serializers import CustomerSerializer, FeedbackSerializer
+from collect_opinions.serializers import (
+    CustomerSerializer,
+    FeedbackCreateSerializer,
+    FeedbackSerializer
+)
 
 
 # form-based views
@@ -39,7 +44,7 @@ class FormSuccess(View):
 
 
 # api endpoints
-class CustomerDetailView(generics.RetrieveUpdateDestroyAPIView):
+class CustomerDetailView(rest_generics.RetrieveUpdateDestroyAPIView):
     # lookup_field = (
     #     'name'
     # )
@@ -47,17 +52,26 @@ class CustomerDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CustomerSerializer
 
 
-class CustomerListView(generics.ListCreateAPIView):
+class CustomerListView(rest_generics.ListCreateAPIView):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
 
 
-# TODO: create cutomer if does not exist in the database
-class FeedbackDetailView(generics.RetrieveUpdateDestroyAPIView):
+class FeedbackDetailView(rest_generics.RetrieveUpdateDestroyAPIView):
     queryset = Feedback.objects.all()
     serializer_class = FeedbackSerializer
 
 
+class FeedbackListView(rest_generics.ListAPIView):
+    queryset = Feedback.objects.all()
+    serializer_class = FeedbackSerializer
+
+
+class FeedbackCreateView(rest_generics.CreateAPIView):
+    serializer_class = FeedbackCreateSerializer
+
+
+# TODO: create cutomer if does not exist in the database
 # class FeedbackView(APIView):
 
 #     def get_object(self, pk):
@@ -71,9 +85,6 @@ class FeedbackDetailView(generics.RetrieveUpdateDestroyAPIView):
 #         serializer = FeedbackSerializer(feedback, context={"request": request})
 #         return Response(serializer.data)
 
-class FeedbackListView(generics.ListCreateAPIView):
-    queryset = Feedback.objects.all()
-    serializer_class = FeedbackSerializer
 
 # class FeedbackList(APIView):
 
@@ -88,8 +99,3 @@ class FeedbackListView(generics.ListCreateAPIView):
 #             serializer.save()
 #             return Response(serializer.data, status=status.HTTP_201_CREATED)
 #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class FeedbackByCusotmerListView(generic.DetailView):
-    model = Customer
-    template_name = "collect_opinions/feedbacks_by_customer.html"
