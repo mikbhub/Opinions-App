@@ -27,7 +27,7 @@ class FeedbackManager(models.Manager):
     * assigning `feedback` to `customer`
     * creating new `customer` if one is not in the database.
     """
-    
+
     def create_feedback_from_Form_or_Api(self, email, name, *feedback_args, **feedback_kwargs):
         """
         Creates new `Feedback` instance and assigns it to `Customer` from the database.
@@ -38,9 +38,9 @@ class FeedbackManager(models.Manager):
         If a match is found, it updates the fields passed in the defaults dictionary.
         """
         customer, created = Customer.objects.update_or_create(
-                email=email,
-                defaults={'name': name},
-            )
+            email=email,
+            defaults={'name': name},
+        )
         feedback_kwargs.update({'customer': customer})
         feedback = Feedback.objects.create(*feedback_args, **feedback_kwargs)
         return feedback
@@ -72,7 +72,7 @@ class Feedback(models.Model):
             date=self.date,
             source=self.source_type,
         )
-    
+
     class Meta:
         verbose_name = 'Feedback'
         verbose_name_plural = 'Feedbacks'

@@ -7,13 +7,18 @@ from rest_framework import status
 from rest_framework.test import APIClient, APIRequestFactory, APITestCase
 
 from .models import Customer, Feedback
-from .serializers import CustomerSerializer, FeedbackSerializer
+from .serializers import CustomerSerializer, FeedbackCreateSerializer
 
 
 class TestGetSingleCustomer(APITestCase):
-    """ Test module for GET single customer via API """
+    """ 
+    Test module for GET single customer via API endpoint api/customers/
+    """
 
     def setUp(self):
+        """
+        Creates sample customer using Faker
+        """
         fake = Factory.create()
         self.customer1 = Customer.objects.create(
             name=fake.name(),
@@ -21,6 +26,10 @@ class TestGetSingleCustomer(APITestCase):
         )
 
     def test_get_valid_single_customer(self):
+        """
+        Data of serialized customer should be the same as
+        data obtained for the customer using api endpoint.
+        """
         factory = APIRequestFactory()
         request = factory.get('/')
         response = self.client.get(reverse('collect_opinions:customer-detail', kwargs={'pk': self.customer1.pk}))
@@ -39,7 +48,9 @@ class TestGetSingleCustomer(APITestCase):
 
 
 class TestCreateSingleCustomer(APITestCase):
-    """ Test module for creatin single customer using API """
+    """
+    Test module for creatin single customer using API endpoint api/customers/
+    """
 
     fake = Factory.create()
     customer_data = {
@@ -58,7 +69,9 @@ class TestCreateSingleCustomer(APITestCase):
 
 
 class TestCreateAndGetSingleCustomer(APITestCase):
-    """ Test module for GET single customer API """
+    """
+    Test module for GET single customer API using endpoint api/customers/{pk}
+    """
     fake = Factory.create()
     customer_data = {
         'name': fake.name(),
@@ -67,7 +80,7 @@ class TestCreateAndGetSingleCustomer(APITestCase):
     
     def setUp(self):
         """
-        Ensure we can create a new customer object.
+        Creates new customer in the database using api endpoint.
         """
         url = reverse('collect_opinions:customers')
         self.assertEqual(url, '/collect_opinions/api/customers/')
@@ -75,6 +88,9 @@ class TestCreateAndGetSingleCustomer(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_get_created_customer(self):
+        """
+        Should get customer created in the `setUp` method
+        """
         # check getting created customer with api
         factory = APIRequestFactory()
         url = reverse('collect_opinions:customer-detail', kwargs={'pk': 1})
@@ -92,3 +108,46 @@ class TestCreateAndGetSingleCustomer(APITestCase):
 
 
 # TODO: write test for feedback creation, getting.
+class TestCreateFeedback(APITestCase):
+    """
+    Test module for api/feedback/new endpoint
+    """
+    def setUp(self):
+        """
+        Creates single customer instance in the database.
+        """
+        raise NotImplementedError
+    
+    def test_create_new_feedback_customer_not_in_database(self):
+        """
+        Should create new `feedback` in the database and assign it
+        to the `customer` identified by `email`.
+        """
+        raise NotImplementedError
+
+    def test_create_new_feedback_customer_already_in_database(self):
+        """
+        Should create new `feedback` in the database,
+        create new `customer` in the database and assign
+        newly created `feedback` to the `customer`.
+        """
+        raise NotImplementedError
+
+
+class TestListFeebacks(APITestCase):
+    """
+    Test module for api/feedbacks/ endpoint.
+    Ensure we can list all feedbacks from the database using this endpoint.
+    """
+    
+    def setUp(self):
+        """
+        Create few sample feedbacks in the database.
+        """
+        raise NotImplementedError
+    
+    def test_list_all_feedbacks(self):
+        """
+        Shoud list all feedbacks from the database.
+        """
+        raise NotImplementedError

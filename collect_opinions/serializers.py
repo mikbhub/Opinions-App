@@ -57,15 +57,16 @@ class FeedbackCreateSerializer(serializers.ModelSerializer):
 
         fields = [
             "customer",
+            "text",
             "source_type",
             "source_url",
             "date",
-            "text",
         ]
 
     # explicit create() method
     def create(self, validated_data):
         customer = validated_data.pop('customer')
+        # utilizes custom FeedbackManager
         return Feedback.objects.create_feedback_from_Form_or_Api(
             name=customer['name'],
             email=customer['email'],

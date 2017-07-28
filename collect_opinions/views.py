@@ -10,7 +10,6 @@ from collect_opinions.serializers import (
     FeedbackSerializer
 )
 
-
 # form-based views
 class FeebackForm(generic.edit.FormView):
     """
@@ -71,7 +70,7 @@ class FeedbackDetailView(rest_generics.RetrieveUpdateDestroyAPIView):
 
 class FeedbackListView(rest_generics.ListAPIView):
     """
-    List all `feedback`.
+    List all `feedbacks` from the database.
     """
     queryset = Feedback.objects.all()
     serializer_class = FeedbackSerializer
@@ -79,6 +78,7 @@ class FeedbackListView(rest_generics.ListAPIView):
 
 class FeedbackCreateView(rest_generics.CreateAPIView):
     """
-    Create a new 'feedback' instance.
+    Create a new `feedback` instance, assign it to `customer`
+    and, if one is not in the database, create new `customer` .
     """
     serializer_class = FeedbackCreateSerializer
