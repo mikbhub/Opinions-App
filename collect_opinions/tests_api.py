@@ -139,15 +139,47 @@ class TestListFeebacks(APITestCase):
     Test module for api/feedbacks/ endpoint.
     Ensure we can list all feedbacks from the database using this endpoint.
     """
-    
+
     def setUp(self):
         """
         Create few sample feedbacks in the database.
         """
-        raise NotImplementedError
+        fake = Factory.create()
+        email1 = fake.safe_email()
+        email2 = fake.safe_email()
+        name1 = fake.name()
+        name2 = fake.name()
+        text1 = fake.text()
+        text2 = fake.text()
+        text3 = fake.text()
+
+        Feedback.objects.create_feedback_from_Form_or_Api(
+            email=email1,
+            name=name1,
+            text=text1,
+            source_type='tests',
+        )
+
+        Feedback.objects.create_feedback_from_Form_or_Api(
+            email=email2,
+            name=name2,
+            text=text2,
+            source_type='tests',
+        )
+
+        Feedback.objects.create_feedback_from_Form_or_Api(
+            email=email2,
+            name=name2,
+            text=text3,
+            source_type='tests',
+        )
     
     def test_list_all_feedbacks(self):
         """
         Shoud list all feedbacks from the database.
         """
-        raise NotImplementedError
+        feedbacks_in_database = Feedback.objects.count()
+        url = reverse('collect_opinions:feedbacks')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['count'], feedbacks_in_database)
