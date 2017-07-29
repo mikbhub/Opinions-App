@@ -116,14 +116,29 @@ class TestCreateFeedback(APITestCase):
         """
         Creates single customer instance in the database.
         """
-        raise NotImplementedError
+        # raise NotImplementedError
+        pass
     
     def test_create_new_feedback_customer_not_in_database(self):
         """
         Should create new `feedback` in the database and assign it
         to the `customer` identified by `email`.
         """
-        raise NotImplementedError
+        fake = Factory.create()
+        url = reverse('collect_opinions:feedback-create')
+        data = {
+            "customer": {
+                "email": fake.safe_email(),
+                "name": fake.name()
+            },
+            "text": fake.text(),
+            "source_type": "tests"
+        }
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Feedback.objects.count(), 1)
+        self.assertEqual(Customer.objects.count(), 1)
+        self.assertEqual(Customer.objects.get(), Feedback.objects.get().customer)
 
     def test_create_new_feedback_customer_already_in_database(self):
         """
