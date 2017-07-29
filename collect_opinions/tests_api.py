@@ -112,33 +112,42 @@ class TestCreateFeedback(APITestCase):
     """
     Test module for api/feedback/new endpoint
     """
+    endpoint = reverse('collect_opinions:feedback-create')
+
+    fake = Factory.create()
+    email = fake.safe_email()
+    name = fake.name()
+
     def setUp(self):
         """
         Creates single customer instance in the database.
         """
-        # raise NotImplementedError
-        pass
-    
+        Customer.objects.create(
+            email=self.email,
+            name=self.name,
+        )
+        print(self.name, self.email)
+
     def test_create_new_feedback_customer_not_in_database(self):
         """
         Should create new `feedback` in the database and assign it
         to the `customer` identified by `email`.
         """
         fake = Factory.create()
-        url = reverse('collect_opinions:feedback-create')
         data = {
             "customer": {
                 "email": fake.safe_email(),
                 "name": fake.name()
             },
             "text": fake.text(),
-            "source_type": "tests"
+            "source_type": "tests",
+            "source_url": "test_url"
         }
-        response = self.client.post(url, data, format='json')
+        response = self.client.post(self.endpoint, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Feedback.objects.count(), 1)
-        self.assertEqual(Customer.objects.count(), 1)
-        self.assertEqual(Customer.objects.get(), Feedback.objects.get().customer)
+        self.assertEqual(Customer.objects.count(), 2)
+        self.assertEqual(Customer.objects.last(), Feedback.objects.get().customer)
 
     def test_create_new_feedback_customer_already_in_database(self):
         """
@@ -146,7 +155,31 @@ class TestCreateFeedback(APITestCase):
         create new `customer` in the database and assign
         newly created `feedback` to the `customer`.
         """
-        raise NotImplementedError
+        # reuses email and name for customer from setUp()
+        fake = Factory.create()
+        data = {
+            "customer": {
+                "email": self.email,
+                "name": self.name
+            },
+            "text": fake.text(),
+            "source_type": "tests",
+            "source_url": "test_url"
+        }
+        response = self.client.post(self.endpoint, data, format='json')
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_201_CREATED,
+            msg=f"""
+            Wrong response status! at {self.endpoint}.
+            Response: {response.data}.
+            email: {self.email}.
+            name: {self.name}.
+            """
+        )
+        self.assertEqual(Customer.objects.count(), 1, msg='Cusomer count does not match.')
+        self.assertEqual(Feedback.objects.count(), 1, msg='Feedback count does not match.')
+        self.assertEqual(Customer.objects.get(), Feedback.objects.get().customer)
 
 
 class TestListFeebacks(APITestCase):
