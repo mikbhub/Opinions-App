@@ -2,16 +2,18 @@
 
 // ajax app
 $(document).ready(function () {
+    console.log('script loaded');
+
+    let endpoint = 'http://127.0.0.1:8110/collect_opinions/api/feedbacks/new/';
     let form = document.forms.feedbackform;
-    console.log('script loaded;');
-    let url = 'http://127.0.0.1:8120/';
+
     $(form).submit(function (event) {
         event.preventDefault();
         alert('sending');
         $.ajax({
             type: 'POST',
             contentType: 'application/json',
-            url: url,
+            url: endpoint,
             data: JSON.stringify({
                 "customer": {
                     "email": form.email.value,
@@ -19,7 +21,7 @@ $(document).ready(function () {
                 },
                 "text": form.text.value,
                 "source_type": "formjs",
-                "source_url": url
+                "source_url": "http://127.0.0.1:8120/"
             }),
             dataType: 'json',
             success: function () {
