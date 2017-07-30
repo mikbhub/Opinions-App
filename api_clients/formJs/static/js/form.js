@@ -1,18 +1,11 @@
 'use strict';
-// $(document).ready(function() {
-//     console.log('script loaded');
-//     let $button = $('button');
-//     $button.on('click', function() {
-//         $.getJSON('http://date.jsontest.com/', function(data) {
-//             alert(data.time + ' ' + data.date);
-//         });
-//     });
-// });
+
 // ajax app
 $(document).ready(function () {
+    let form = document.forms.feedbackform;
     console.log('script loaded;');
-    let url = 'http://127.0.0.1:8110/collect_opinions/api/feedbacks/new/';
-    $('#submit').on('click', function (event) {
+    let url = 'http://127.0.0.1:8120/';
+    $(form).submit(function (event) {
         event.preventDefault();
         alert('sending');
         $.ajax({
@@ -21,12 +14,12 @@ $(document).ready(function () {
             url: url,
             data: JSON.stringify({
                 "customer": {
-                    "email": "formjs@mail.com",
-                    "name": "formjs"
+                    "email": form.email.value,
+                    "name": form.name.value
                 },
-                "text": "formjs",
+                "text": form.text.value,
                 "source_type": "formjs",
-                "source_url": "http://127.0.0.1:8110/collect_opinions/api/feedbacks/new/"
+                "source_url": url
             }),
             dataType: 'json',
             success: function () {
