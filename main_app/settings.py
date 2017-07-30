@@ -137,6 +137,7 @@ REST_FRAMEWORK = {
 # CORS
 CORS_ORIGIN_WHITELIST = (
     'localhost:8120',
+    '127.0.0.1:8120',
 )
 
 LOGIN_REDIRECT_URL = reverse_lazy('dispatch_to_support:dashboard')
