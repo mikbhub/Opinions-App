@@ -107,7 +107,6 @@ class TestCreateAndGetSingleCustomer(APITestCase):
         self.assertEqual(response.data, self.customer_data)
 
 
-# TODO: write test for feedback creation, getting.
 class TestCreateFeedback(APITestCase):
     """
     Test module for api/feedback/new endpoint
@@ -127,6 +126,9 @@ class TestCreateFeedback(APITestCase):
             name=self.name,
         )
         print(self.name, self.email)
+    
+    def tearDown(self):
+        Customer.objects.all().delete()
 
     def test_create_new_feedback_customer_not_in_database(self):
         """
