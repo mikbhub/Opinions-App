@@ -102,3 +102,6 @@ ENV/
 
 # secrets
 main_app/secret.py
+
+# test database
+db.sqlite3
