@@ -9,8 +9,8 @@ $(document).ready(function () {
 
     $(form).submit(function (event) {
         event.preventDefault();
-        alert('sending');
-        $.ajax({
+        Materialize.toast('Sending!', 10000);;
+        let request = $.ajax({
             type: 'POST',
             contentType: 'application/json',
             url: endpoint,
@@ -24,9 +24,18 @@ $(document).ready(function () {
                 "source_url": "http://127.0.0.1:8120/"
             }),
             dataType: 'json',
-            success: function () {
-                alert('Thank you for your opinion.');
-            }
+        });
+        request.done(function (xhr, status) {
+            // Materialize.toast(message, displayLength, className, completeCallback);
+            Materialize.toast('Thank you for your opinion!', 10000); // 4000 is the duration of the toast
+            // alert('Thank you for your opinion.');
+        });
+        request.fail(function (xhr, status, errorThrown) {
+            Materialize.toast(`Sorry, there was a problem!: ${errorThrown} Status: ${xhr.status}`, 10000); // 4000 is the duration of the toast
+            console.log("Error: " + errorThrown);
+            console.log("Status: " + status);
+            console.dir(xhr);
         });
     });
 });
+// (`Fifteen is ${a + b} and\nnot ${2 * a + b}.`);
