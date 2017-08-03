@@ -21,10 +21,13 @@
 
     <!--  Navbar-->
     <div class="navbar-fixed">
-        <nav class="light-blue lighten-1" role="navigation">
+        <nav class="green darken-3" role="navigation">
             <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
                 <ul class="right hide-on-med-and-down">
                     <li><a href="#">Navbar Link</a></li>
+                    <li><a href="">Sass</a></li>
+                    <li><a href="{% url 'logout' %}">logged as {{ user }}</a></li>
+                    <li><a href="{% url 'dispatch_to_support:dashboard' %}">Dashboard</a></li>
                 </ul>
 
                 <ul id="nav-mobile" class="side-nav">
@@ -53,7 +56,7 @@
 
 
     <!--  Footer-->
-    <footer class="page-footer orange">
+    <footer class="page-footer teal grey darken-3">
         <div class="container">
             <div class="row">
                 <div class="col l6 s12">
