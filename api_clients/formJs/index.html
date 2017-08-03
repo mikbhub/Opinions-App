@@ -6,34 +6,56 @@
     <meta name="description" content="">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <link href="" rel="stylesheet">
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
     <script src="static/js/form.js" type="text/javascript" charset="utf-8"></script>
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
+
 </head>
 
 <body>
     <h1>FormJs</h1>
 
-    <form method="POST" action="" name="feedbackform">
-        <fieldset name="personal-information">
-            <legend>Personal Information</legend>
-            <label>Your email
-                <input type="email" name="email" required placeholder="example@mail.com">
-            </label>
-            <label>Your Name
-                <input type="text" name="name" required placeholder="John Snow">
-            </label>
-        </fieldset>
-        <fieldset name="problem">
-            <legend>Problem</legend>
-            <label>Describe your problem
-                <textarea name="text" required placeholder="Your opinion"></textarea>
-            </label>
-        </fieldset>
-
-        <input id="submit" type="submit" name="" value="Send">
-    </form>
+    <div class="row">
+        <form class="col s12" method="POST" action="" name="feedbackform">
+            <div class="row">
+                <div class="input-field col s6">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input required id="name" name="name" type="text" class="validate">
+                    <label for="name">First Name</label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="last_name" type="text" class="validate">
+                    <label for="last_name">Last Name</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">email</i>
+                    <input required id="email" name="email" type="email" class="validate">
+                    <label for="email">Email</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">mode_edit</i>
+                    <textarea required name="text" id="textarea1" class="materialize-textarea"></textarea>
+                    <label for="textarea1">Your message</label>
+                </div>
+            </div>
+            <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+            <i class="material-icons right">send</i>
+        </button>
+        </form>
+    </div>
 
 </body>
 
