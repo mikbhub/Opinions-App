@@ -29,13 +29,15 @@ $(document).ready(function () {
             // Materialize.toast(message, displayLength, className, completeCallback);
             Materialize.toast('Thank you for your opinion!', 10000); // 4000 is the duration of the toast
             // alert('Thank you for your opinion.');
+            $("button").prop('disabled', true);
         });
         request.fail(function (xhr, status, errorThrown) {
             Materialize.toast(`Sorry, there was a problem!: ${errorThrown} Status: ${xhr.status}`, 10000); // 4000 is the duration of the toast
+            let json_error = xhr.responseText;
+            Materialize.toast(`Response: ${json_error}`, 10000); // 4000 is the duration of the toast
             console.log("Error: " + errorThrown);
             console.log("Status: " + status);
             console.dir(xhr);
         });
     });
 });
-// (`Fifteen is ${a + b} and\nnot ${2 * a + b}.`);
