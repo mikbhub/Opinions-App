@@ -7,9 +7,12 @@ $(document).ready(function () {
     let endpoint = 'http://127.0.0.1:8110/collect_opinions/api/feedbacks/new/';
     let form = document.forms.feedbackform;
 
+    // set notification timeout in microseconds. 1000 ms = 1 s
+    let notification_timeout = 6000;
+
     $(form).submit(function (event) {
         event.preventDefault();
-        Materialize.toast('Sending!', 10000);;
+        Materialize.toast('Sending!', notification_timeout);;
         let request = $.ajax({
             type: 'POST',
             contentType: 'application/json',
@@ -27,14 +30,14 @@ $(document).ready(function () {
         });
         request.done(function (xhr, status) {
             // Materialize.toast(message, displayLength, className, completeCallback);
-            Materialize.toast('Thank you for your opinion!', 10000); // 4000 is the duration of the toast
+            Materialize.toast('Thank you for your opinion!', notification_timeout, 'green'); // 4000 is the duration of the toast
             // alert('Thank you for your opinion.');
             $("button").prop('disabled', true);
         });
         request.fail(function (xhr, status, errorThrown) {
-            Materialize.toast(`Sorry, there was a problem!: ${errorThrown} Status: ${xhr.status}`, 10000); // 4000 is the duration of the toast
+            Materialize.toast(`Sorry, there was a problem!: ${errorThrown} Status: ${xhr.status}`, notification_timeout, 'red darken-1'); // 4000 is the duration of the toast
             let json_error = xhr.responseText;
-            Materialize.toast(`Response: ${json_error}`, 10000); // 4000 is the duration of the toast
+            Materialize.toast(`Response: ${json_error}`, notification_timeout); // 4000 is the duration of the toast
             console.log("Error: " + errorThrown);
             console.log("Status: " + status);
             console.dir(xhr);
