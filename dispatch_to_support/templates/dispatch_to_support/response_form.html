@@ -6,11 +6,28 @@
 
 
 {% block body %}
-<h2>Write a Response</h2>
-<form action="" method="POST">
-    {% csrf_token %}
-    {{form.as_p}}
-    <input type="submit" name="" value="Send response">
-</form> 
-{% endblock body %}
-    
+
+<div class="row">
+    <div class="col offset-m2 offset-l2 s12 m8 l8">
+        <p class="flow-text center-align">Write a response addressing customer complaint</p>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">comment</i> 
+                    <textarea required id="id_text" name="text" class="materialize-textarea"></textarea>
+                    <label for="id_text">{{ form.text.label_tag }}</label>
+                </div>
+            </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <button class="btn-large waves-effect waves-light red darken-1 right" type="submit" name="action">send response
+                    <i class="material-icons right">email</i>
+                </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock body %}    
