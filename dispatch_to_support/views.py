@@ -23,13 +23,13 @@ def sample_gen():
 gen = sample_gen()
 dispatcher = CustomerSupportDispatcher()
 # Create your views here.
-class QueueView(PermissionRequiredMixin, View):
+class QueueView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     permission_required = [
         'dispatch_to_support.change_supportticket'
     ]
 
-    raise_exception = True
+    raise_exception = False
 
     def get(self, request):
         return render(request, 'dispatch_to_support/get_case.html')
