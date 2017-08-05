@@ -13,10 +13,15 @@
         <h2>Qeue</h2>
         <form action="" method="POST">
             {% csrf_token %}
-            <input type="submit" name="" value="get next case">
+            <button class="btn waves-effect waves-light" type="submit" name="action">get next case
+                {% comment %} <a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a> {% endcomment %}
+                <i class="material-icons right">send</i> 
+            </button>
         </form>
     </div>
-</div>
+
    
 {% endblock body %}
+
+
     
