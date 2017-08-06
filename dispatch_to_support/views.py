@@ -32,7 +32,10 @@ class QueueView(LoginRequiredMixin, PermissionRequiredMixin, View):
     raise_exception = False
 
     def get(self, request):
-        return render(request, 'dispatch_to_support/get_case.html')
+        ctx = {
+            'open_tickets': self.request.user.supportticket_set.filter(status=0)  # get open tickets
+        }
+        return render(request, 'dispatch_to_support/get_case.html', ctx)
 
     def post(self, request):
         # return redirect()
