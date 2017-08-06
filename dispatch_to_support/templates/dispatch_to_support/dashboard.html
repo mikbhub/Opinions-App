@@ -1,5 +1,5 @@
 {% extends "dispatch_to_support/dashboard_base.html" %}
-
+{% load static %}
 {% block title %}
     Dashboard
 {% endblock title %}
@@ -21,4 +21,10 @@
     </div>
 </div>
 {% endblock body %}
+
+  
+{% block scripts %}
+<script src="{% static 'dispatch_to_support/js/dashboard.js' %}"></script>
+{% endblock scripts %}
+
     

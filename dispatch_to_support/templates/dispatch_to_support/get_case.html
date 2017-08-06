@@ -1,5 +1,5 @@
 {% extends "dispatch_to_support/dashboard_base.html" %}
-
+{% load static %}
 
 {% block title %}
   queue
@@ -9,7 +9,7 @@
 {% block body %}
 
 <div class="row">
-    <div class="col s12">
+    <div class="col s12 m6 l6">
         <h2>Qeue</h2>
         <form action="" method="POST">
             {% csrf_token %}
@@ -23,5 +23,7 @@
    
 {% endblock body %}
 
-
+{% block scripts %}
+<script src="{% static 'dispatch_to_support/js/tasks.js' %}"></script>
+{% endblock scripts %}
     

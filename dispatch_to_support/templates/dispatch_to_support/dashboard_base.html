@@ -30,8 +30,8 @@
             <div class="nav-wrapper container">
                 <a id="logo-container" href="{% url 'dispatch_to_support:dashboard' %}" class="brand-logo"><i class="material-icons">people</i>Opinions App</a>
                 <ul class="right hide-on-med-and-down">
-                    <li><a href="{% url 'dispatch_to_support:queue' %}"><i class="material-icons left">av_timer</i>Tasks</a></li>
-                    <li><a href="{% url 'dispatch_to_support:dashboard' %}"><i class="material-icons left">view_module</i>Dashboard</a></li>
+                    <li id="tasks"><a href="{% url 'dispatch_to_support:queue' %}"><i class="material-icons left">av_timer</i>Tasks</a></li>
+                    <li id="dashboard"><a href="{% url 'dispatch_to_support:dashboard' %}"><i class="material-icons left">view_module</i>Dashboard</a></li>
                     <!-- Dropdown Trigger -->
                     <li><a class="dropdown-button" href="#!" data-activates="dropdown1">{{ user }}<i class="material-icons left">account_box</i></a></li>
                 </ul>
@@ -102,6 +102,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
 
     <script src="{% static 'dispatch_to_support/js/init.js' %}"></script>
+
+    {% block scripts %}
+      
+    {% endblock scripts %}
 </body>
 
 </html>
