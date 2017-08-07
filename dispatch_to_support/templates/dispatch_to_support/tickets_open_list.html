@@ -1,0 +1,26 @@
+{% if open_tickets %}
+<ul class="collapsible" data-collapsible="accordion">
+    {% for ticket in open_tickets %}
+    <li>
+        <div class="collapsible-header">
+            <span class="truncate">
+                <div class="chip">
+                    {{ ticket.feedback.customer.name }}
+                </div>
+                    {{ ticket.feedback.text }}
+            </span>
+        </div>
+        <div class="collapsible-body">
+            <div class="row">
+                <p>{{ ticket.feedback.text }}</p>
+                <a class="waves-effect waves-light btn right" href="{% url 'dispatch_to_support:ticket-update' pk=ticket.pk %}">Details
+                    <i class="material-icons right">visibility</i> 
+                </a>
+            </div>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p class="flow-text center-align">There are no tickets</p>
+{% endif %}
