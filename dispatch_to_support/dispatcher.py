@@ -20,33 +20,36 @@ class CustomerSupportDispatcher:
         False otherwise.
         """
         query_set = SupportTicket.objects.filter(status__isnull=True)
-        if not query_set.exists():  # if query_set is empty
+        if not query_set.exists():  # if query_set is empty, there are no more tickets to process.
             return False
         else:
+            # build inner PriorityQueue from tuples:
+            # (sentiment, data)
             for support_ticket in query_set:
                 sentiment = float(support_ticket.feedback.metrics.sentiment)
                 time_lag = (timezone.localtime() - support_ticket.feedback.date).days
                 priority_number = sentiment - time_lag
                 data = {
-                    "feedback": support_ticket.feedback,
-                    "support_ticket": support_ticket,
+                    "feedback": support_ticket.feedback.pk,
+                    "support_ticket": support_ticket.pk,
                 }
                 self.queue.put((priority_number, data))
             return True
 
     def give_next_customer_case(self, give_to, **kwargs):
+        # batch-populate inner queue if it is empty
         if self.queue.empty():
+            # once the inner queue is populated, do a recursion
             if self.populate_queue():
                 return self.give_next_customer_case(give_to, **kwargs)
             else:
-                return 0, {
-                    'feedback': None,
-                    'support_ticket': None,
-                }
+                # TODO: un-ugly this
+                return None, None
         else:
             priority_number, data = self.queue.get()
-            data["support_ticket"].status = 0
-            data["support_ticket"].support_person = give_to
-            data["support_ticket"].opened = timezone.localtime()
-            data["support_ticket"].save()
+            SupportTicket.objects.filter(pk=data["support_ticket"]).update(
+                status=0,
+                support_person=give_to,
+                opened=timezone.localtime(),
+            )
             return priority_number, data
