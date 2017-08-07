@@ -10,19 +10,12 @@
 
 <div class="row">
 
-    <div class="col s12 m8 l8">
+    <div class="col s12 offset-m2 offset-l2 m8 l8">
         <p class="flow-text center-align">Your open tickets</p>
         {% include "dispatch_to_support/tickets_open_list.html" %}
     </div>
-    <div class="col s12 m4 l4 center-align">
-        <p class="flow-text">Qeue</p>
-        <form action="" method="POST">
-            {% csrf_token %}
-            <button class="btn-large waves-effect waves-light" type="submit" name="action">Get next task
-                <i class="material-icons right">queue</i> 
-            </button>
-        </form>
-    </div>
+
+    {% include "dispatch_to_support/task_get_next_button.html" %}
    
 {% endblock body %}
 
@@ -33,4 +26,5 @@
 
 {% block scripts %}
 <script src="{% static 'dispatch_to_support/js/tasks.js' %}"></script>
+<script src="{% static 'dispatch_to_support/js/next_task.js' %}"></script>
 {% endblock scripts %}
