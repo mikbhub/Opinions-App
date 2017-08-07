@@ -1,0 +1,23 @@
+<ul class="collapsible" data-collapsible="accordion">
+    {% for ticket in customer_past_ticket_list %}
+    <li>
+        <div class="collapsible-header">
+            <div class="truncate">
+                <div class="chip">
+                    {{ ticket.closed }}
+                </div>
+                    {{ ticket.feedback }}
+            </div>
+        </div>
+        <div class="collapsible-body">
+            <p><b>Last response:</b></p>
+            <blockquote><i>{{ ticket.responses_by_support.last.text }}</i></blockquote>
+            <div class="row">
+                <a class="waves-effect waves-light btn right" href="{% url 'dispatch_to_support:ticket-detail' pk=ticket.pk %}">Ticket details
+                    <i class="material-icons right">visibility</i> 
+                </a>
+            </div>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
