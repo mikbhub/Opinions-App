@@ -1,5 +1,17 @@
-<ol>
+<ul class="collapsible" data-collapsible="accordion">
     {% for response in object.sorted_responses %}
-      <li>{{response.date}}<a href="{{response.get_absolute_url}}">{{response}}</a></li>
+    <li>
+        <div class="collapsible-header">
+            <div class="truncate">
+                <div class="chip">
+                    {{ response.date }}
+                </div>
+                {{ response.text }}
+            </div>
+        </div>
+        <div class="collapsible-body">
+            <blockquote><i>{{ response.text }}</i></blockquote>
+        </div>
+    </li>
     {% endfor %}
-</ol>
+</ul>
