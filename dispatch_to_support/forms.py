@@ -1,6 +1,5 @@
 from django import forms
 from dispatch_to_support.models import SupportTicket, Response
-# from django.utils.translation import ugettext_lazy as _
 
 
 class SupportTicketForm(forms.Form):
@@ -19,27 +18,3 @@ class ResponseForm(forms.ModelForm):
         fields = (
             'text',
         )
-
-# class FeedbackForm(forms.ModelForm):
-
-#     # customer = forms.EmailField()
-
-#     class Meta:
-#         model = Feedback
-#         fields = (
-#             'title',
-#             'description',
-#             'customer',
-#         )
-
-#         labels = {
-#             'customer': _('Your email'),
-#         }
-
-#         help_texts = {
-#             'description': _('Please describe your problem.'),
-#         }
-
-#         # widgets = {
-#         #     'customer': forms.EmailInput(),
-#         # }

@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from collect_opinions.models import Feedback
 from django.core.mail import send_mail
 
-# Create your models here.
+
 class SupportTicket(models.Model):
     """Model definition for SupportTicket."""
 
@@ -14,7 +14,6 @@ class SupportTicket(models.Model):
         (1, 'closed'),
     )
 
-    # TODO: Define fields here
     # is tied to feedback
     feedback = models.ForeignKey(to=Feedback, null=True, related_name='support_tickets_issued')
     # status: open (is opened when customer suport first takes care of it) or closed
@@ -60,7 +59,6 @@ def create_empty_metrics(instance, **kwargs):
 class Response(models.Model):
     """Model definition for Response."""
 
-    # TODO: Define fields here
     text = models.TextField()
     support_ticket = models.ForeignKey(to=SupportTicket, null=True, related_name='responses_by_support')
     support_person = models.ForeignKey(to=User, null=True, blank=True, related_name='responses_given')

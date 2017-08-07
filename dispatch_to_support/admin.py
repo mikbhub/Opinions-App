@@ -28,12 +28,6 @@ class SupportTicketAdmin(admin.ModelAdmin):
         'opened',
         'closed',
     )
-    # inlines = [
-    #     Inline,
-    # ]
-    # raw_id_fields = ('',)
-    # readonly_fields = ('',)
-    # search_fields = ('',)
 
 
 @admin.register(Response)
@@ -41,16 +35,4 @@ class ResponseAdmin(admin.ModelAdmin):
     '''
         Admin View for Response
     '''
-    # list_display = (
-    #     # 'short_text',
-    #     # 'support_ticket'
-    #     # 'support_person',
-    #     # 'date',
-    #     )
-    # list_filter = ('',)
-    # inlines = [
-    #     Inline,
-    # ]
-    # raw_id_fields = ('',)
-    # readonly_fields = ('',)
-    # search_fields = ('',)
+    pass
