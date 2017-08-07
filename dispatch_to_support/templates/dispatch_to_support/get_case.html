@@ -12,39 +12,13 @@
 
     <div class="col s12 m8 l8">
         <p class="flow-text center-align">Your open tickets</p>
-        {% if open_tickets %}
-        <ul class="collapsible" data-collapsible="accordion">
-            {% for ticket in open_tickets %}
-                <li>
-                    <div class="collapsible-header">
-                        <!-- <i class="material-icons">forum</i> -->
-                        <span class="truncate flow-text">
-                            <div class="chip">
-                                    {{ ticket.feedback.customer.name }}
-                            </div>
-                                {{ ticket.feedback.text }}
-                        </span>
-                    </div>
-                    <div class="collapsible-body">
-                        <div class="row">
-                            <p>{{ ticket.feedback.text }}</p>
-                            <a class="waves-effect waves-light btn" href="{% url 'dispatch_to_support:ticket-update' pk=ticket.pk %}">Details
-                                <i class="material-icons right">visibility</i> 
-                            </a>
-                        </div>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
-        {% else %}
-            <p class="flow-text center-align">There are no tickets</p>
-        {% endif %}
+        {% include "dispatch_to_support/tickets_open_list.html" %}
     </div>
-    <div class="col s12 m4 l4">
-        <p class="flow-text center-align">Qeue</p>
+    <div class="col s12 m4 l4 center-align">
+        <p class="flow-text">Qeue</p>
         <form action="" method="POST">
             {% csrf_token %}
-            <button class="btn-large waves-effect waves-light right" type="submit" name="action">Get next task
+            <button class="btn-large waves-effect waves-light" type="submit" name="action">Get next task
                 <i class="material-icons right">queue</i> 
             </button>
         </form>
