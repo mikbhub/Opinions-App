@@ -1,5 +1,5 @@
-{% if open_tickets %}
-<ul class="collapsible" data-collapsible="accordion">
+{% comment %} {% if open_tickets %} {% endcomment %}
+<ul id="open-tickets" class="collapsible" data-collapsible="accordion">
     {% for ticket in open_tickets %}
     <li>
         <div class="collapsible-header">
@@ -13,7 +13,7 @@
         <div class="collapsible-body">
             <div class="row">
                 <p>{{ ticket.feedback.text }}</p>
-                <a class="waves-effect waves-light btn right" href="{% url 'dispatch_to_support:ticket-update' pk=ticket.pk %}">Details
+                <a class="waves-effect waves-light btn left" href="{% url 'dispatch_to_support:ticket-update' pk=ticket.pk %}">Details
                     <i class="material-icons right">visibility</i> 
                 </a>
             </div>
@@ -21,6 +21,6 @@
     </li>
     {% endfor %}
 </ul>
-{% else %}
+{% comment %} {% else %}
 <p class="flow-text center-align">There are no tickets</p>
-{% endif %}
+{% endif %} {% endcomment %}
