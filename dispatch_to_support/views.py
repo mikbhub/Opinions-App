@@ -12,6 +12,14 @@ from dispatch_to_support.dispatcher import CustomerSupportDispatcher
 from dispatch_to_support.forms import ResponseForm
 from dispatch_to_support.models import Response, SupportTicket
 
+from rest_framework.decorators import api_view
+from rest_framework.response import Response as REST_Response
+
+from collect_opinions.serializers import FeedbackSerializer
+from collect_opinions.models import Feedback
+
+from django.core.exceptions import ObjectDoesNotExist
+
 
 dispatcher = CustomerSupportDispatcher()
 # Create your views here.
@@ -108,3 +116,58 @@ class ResponseCreateView(FormView):
 class ResponseDetailView(DetailView):
     model = Response
     template_name = "dispatch_to_support/response_detail.html"
+
+
+# quick & dirty method to build REST api endpoint for queue dispatcher
+@api_view()
+def next_task(request):
+    """
+    Api endpoint that gives new task or if there are no tasks avaliable returns {}.
+    """
+
+    # check if support person has not reached the limit of open tickets
+    # which for now is hardcoded = 3
+    your_open_ticket_count = request.user.supportticket_set.filter(status=0).count()
+    OPEN_TICKER_LIMIT = 3
+    if your_open_ticket_count >= OPEN_TICKER_LIMIT:
+        return REST_Response(
+            [
+                'Reached limit of open tickets',
+                {
+                    'Limit': OPEN_TICKER_LIMIT
+                }
+            ]
+        )
+
+    sentiment, data = dispatcher.give_next_customer_case(give_to=request.user)
+    
+    # The queue is out of tasks
+    if data is None:
+        return REST_Response(
+            [
+                'There are no more tasks for now'
+            ]
+        )
+    
+    feedback_pk = data["feedback"]
+    support_ticket_pk = data["support_ticket"]
+
+    try:
+        feedback = Feedback.objects.get(pk=feedback_pk)
+        feedback_serialized = FeedbackSerializer(
+            instance=feedback,
+            context={'request': request},
+        )
+    except ObjectDoesNotExist:
+        context = 'DoesNotExist'
+    else:
+        context = {
+            'sentiment': sentiment,
+            'feedback': feedback_serialized.data,
+            'support_ticket_pk': support_ticket_pk,
+            'user': request.user.username,
+        }
+
+    return REST_Response(context)
+    # support_ticket = SupportTicket.objects.get(pk=support_ticket_pk)
+
