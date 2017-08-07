@@ -1,0 +1,35 @@
+<ul id="dropdown1" class="dropdown-content">
+    <li><a href="{% url 'logout' %}">Logout</a></li>
+</ul>
+
+<div class="navbar-fixed">  
+    <nav class="deep-orange darken-4" role="navigation">
+        <div class="nav-wrapper container">
+            <a id="logo-container" href="{% url 'dispatch_to_support:dashboard' %}" class="brand-logo"><i class="material-icons">people</i><span class="flow-text">Opinions App</span></a>
+            <ul class="right hide-on-med-and-down">
+                <li id="tasks"><a href="{% url 'dispatch_to_support:queue' %}"><i class="material-icons left">av_timer</i>Tasks</a></li>
+                <li id="dashboard"><a href="{% url 'dispatch_to_support:dashboard' %}"><i class="material-icons left">view_module</i>Dashboard</a></li>
+                <!-- Dropdown Trigger -->
+                {% if user.is_authenticated %}
+                        <li><a class="dropdown-button" href="#!" data-activates="dropdown1" data-beloworigin="true">{{ user }}<i class="material-icons left">account_box</i></a></li>
+                    {% else %}
+                        <li><a href="{% url 'login' %}"><i class="material-icons left">account_box</i>Login</a></li>
+                    {% endif %}    
+            </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+        </div>
+    </nav>
+</div>
+
+    <!--  mobile collapsable menu has to be outside .navbar-fixed
+    to show above the dark overlay-->
+<ul class="side-nav" id="nav-mobile">
+    <li><a href="{% url 'dispatch_to_support:queue' %}"><i class="material-icons left">av_timer</i>Tasks</a></li>
+    <li><a href="{% url 'dispatch_to_support:dashboard' %}"><i class="material-icons left">view_module</i>Dashboard</a></li>
+    {% if user.is_authenticated %}
+        <li><a href=""><i class="material-icons left">account_box</i>{{ user }}</a></li>
+        <li><a href="{% url 'logout' %}"><i class="material-icons left">do_not_disturb_on</i>Logout</a></li>
+    {% else %}
+        <li><a href="{% url 'login' %}"><i class="material-icons left">account_box</i>Login</a></li>
+    {% endif %}
+</ul>
