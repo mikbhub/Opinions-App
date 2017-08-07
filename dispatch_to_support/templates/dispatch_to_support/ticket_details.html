@@ -1,0 +1,23 @@
+<div class="card">
+    <div class="card-content">
+        <p class="card-title">Ticket details</p>
+        <div class="chip">
+            {{object.get_status_display}}
+        </div>
+        <div class="chip">
+            <a href="{{object.feedback.source_url}}">{{object.feedback.source_type}}</a>
+        </div>
+        <div class="chip">
+            {{ object.opened }}
+        </div>
+        <p>Sentiment: {{object.feedback.metrics.sentiment}}</p>
+        <p>
+            <i class="material-icons left">person_outline</i>
+            <div class="chip">
+                {{object.feedback.customer.name}}
+            </div>
+            writes:
+        </p>
+        <blockquote><i>{{object.feedback.text}}</i></blockquote>
+    </div>
+</div>
