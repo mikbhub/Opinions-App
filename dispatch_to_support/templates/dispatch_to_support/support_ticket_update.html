@@ -1,13 +1,15 @@
 {% extends "dispatch_to_support/dashboard_base.html" %}
 {% load static %}
+
+
 {% block title %}
     Ticket Update View
 {% endblock title %}
 
+
 {% block body %}
     <div class="row">
         <div class="col s12 m12 l12">
-            <!-- Your content here -->
              <p class="flow-text center-align">Ticket Update View</p> 
             {% include "dispatch_to_support/ticket_details.html" %}
         </div>
@@ -15,18 +17,17 @@
 
     <div class="row">
         <div class="col s12 m6 l6">
-            <!-- Your content here -->
             <p class="flow-text center-align">Previous responses</p>
             {% include "dispatch_to_support/response_list.html" %}
         </div>
 
         <div class="col s12 m6 l6">
-            <!-- Your content here -->
             <p class="flow-text center-align">Past tickets for {{object.feedback.customer.name}}            </p>
             {% include "dispatch_to_support/ticket_past_list.html" %}
         </div>
     </div>
 
+    
     <!-- floating button -->
     <div class="fixed-action-btn toolbar">
         <a class="btn-floating btn-large red">
@@ -51,6 +52,7 @@
         </ul>
         </div>
 {% endblock body %}
+
 
 {% block scripts %}
 <script src="{% static 'dispatch_to_support/js/ticket_update.js' %}"></script>
