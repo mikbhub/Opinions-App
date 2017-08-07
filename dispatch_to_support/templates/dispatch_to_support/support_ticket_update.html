@@ -1,43 +1,57 @@
 {% extends "dispatch_to_support/dashboard_base.html" %}
-
+{% load static %}
 {% block title %}
     Ticket Update View
 {% endblock title %}
 
 {% block body %}
-    <h2>Ticket Update View</h2>
-    <p>Status: {{object.get_status_display}}</p>
-    <p>Sentiment: {{object.feedback.metrics.sentiment}}</p>
-    <p>Feedback: {{object.feedback}}</p>
-    <p>Customer Name: {{object.feedback.customer.name}}, <a href="mailto:{{object.feedback.customer.email}}" target="_top">{{ object.feedback.customer.email }}</a></p>
-    <p>Source_type: {{object.feedback.source_type}}</p>
-    <p>Source_url: <a href="{{object.feedback.source_url}}">{{object.feedback.source_url}}</a></p>
-    <p>Text: {{object.feedback.text}}</p>
+    <div class="row">
+        <div class="col s12 m12 l12">
+            <!-- Your content here -->
+             <p class="flow-text center-align">Ticket Update View</p> 
+            {% include "dispatch_to_support/ticket_details.html" %}
+        </div>
+    </div>
 
-    <form action="{% url 'dispatch_to_support:response-create' ticket_pk=object.pk %}" method="GET">
-        <input type="submit" name="" value="Respond to feedback">
-    </form>
+    <div class="row">
+        <div class="col s12 m6 l6">
+            <!-- Your content here -->
+            <p class="flow-text center-align">Previous responses</p>
+            {% include "dispatch_to_support/response_list.html" %}
+        </div>
 
-    <form action="" method="POST">
-        {% csrf_token %}
-        {{form.as_p}}
-        <input type="submit" name="" value="Close ticket">
-    </form>
+        <div class="col s12 m6 l6">
+            <!-- Your content here -->
+            <p class="flow-text center-align">Past tickets for {{object.feedback.customer.name}}            </p>
+            {% include "dispatch_to_support/ticket_past_list.html" %}
+        </div>
+    </div>
 
-    <section>
-        <h3>Previous responses</h3>
-        {% include "dispatch_to_support/response_list.html" %}
-    </section>
-
-    <section>
-        <h3>Past tickets involving {{object.feedback.customer}}</h3>
-            <ol>
-                {% for ticket in customer_past_ticket_list %}
-                    <li>
-                        <a href="{% url 'dispatch_to_support:ticket-detail' pk=ticket.pk %}">{{ ticket.feedback }}</a>
-                    </li>
-                {% endfor %}
-            </ol>
-    </section>
-    
+    <!-- floating button -->
+    <div class="fixed-action-btn toolbar">
+        <a class="btn-floating btn-large red">
+      <i class="large material-icons">mode_edit</i>
+    </a>
+        <ul>
+            <li class="waves-effect waves-light" id="response-create">
+                <form action="{% url 'dispatch_to_support:response-create' ticket_pk=object.pk %}" method="GET">
+                    <a class="tooltipped" data-position="top" data-delay="50" data-tooltip="Respond to feedback">
+                    <i class="material-icons">forum</i>
+                </a>
+                </form>
+            </li>
+            <li class="waves-effect waves-light" id="ticket-close">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                <a class="tooltipped" data-position="top" data-delay="50" data-tooltip="Close the ticket" href="#!">
+                    <i class="material-icons">done_all</i>
+                </a>
+                </form>
+            </li>
+        </ul>
+        </div>
 {% endblock body %}
+
+{% block scripts %}
+<script src="{% static 'dispatch_to_support/js/ticket_update.js' %}"></script>
+{% endblock scripts %}

@@ -6,18 +6,10 @@
 
 {% block body %}
 
-    <h2>Ticket Detail View</h2>
-    <p>Status: {{object.get_status_display}}</p>
-    <p>Sentiment: {{object.feedback.metrics.sentiment}}</p>
-    <p>Feedback: {{object.feedback}}</p>
-    <p>Customer Name: {{object.feedback.customer.name}}, <a href="mailto:{{object.feedback.customer.email}}" target="_top">{{ object.feedback.customer.email }}</a></p>
-    <p>Source_type: {{object.feedback.source_type}}</p>
-    <p>Source_url: {{object.feedback.source_url}}</p>
-    <p>Text: {{object.feedback.text}}</p>
+    <p class="flow-text center-align">Ticket Detail View</p>
+    {% include "dispatch_to_support/ticket_details.html" %}
 
-    <section>
-        <h3>Previous responses</h3>
-        {% include "dispatch_to_support/response_list.html" %}
-    </section>
+    <p class="flow-text center-align">Previous responses</p>
+    {% include "dispatch_to_support/response_list.html" %}
     
 {% endblock body %}
