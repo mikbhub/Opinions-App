@@ -1,6 +1,12 @@
 <div class="card">
     <div class="card-content">
         <p class="card-title">Ticket details</p>
+        <p>
+            <strong>{{object.feedback.customer.name}}</strong> writes:
+        </p>
+        <blockquote class="light">{{object.feedback.text}}</blockquote>
+    </div>
+    <div class="card-action">
         <div class="chip">
             {{object.get_status_display}}
         </div>
@@ -10,14 +16,12 @@
         <div class="chip">
             {{ object.feedback.date }}
         </div>
-        <p>Sentiment: {{object.feedback.metrics.sentiment}}</p>
-        <p>
-            <i class="material-icons left">person_outline</i>
-            <div class="chip">
-                {{object.feedback.customer.name}}
-            </div>
-            writes:
-        </p>
-        <blockquote class="light">{{object.feedback.text}}</blockquote>
+        {% if object.feedback.metrics.sentiment > 0 %}
+            <div class="chip green ligten-2">
+        {% else %}
+            <div class="chip red lighten-2">
+        {% endif %}
+            Sentiment: {{object.feedback.metrics.sentiment}}
+        </div>
     </div>
 </div>
