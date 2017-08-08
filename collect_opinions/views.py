@@ -13,7 +13,7 @@ from collect_opinions.serializers import (
 # form-based views
 class FeebackForm(generic.edit.FormView):
     """
-    Form for posting new feedback.
+    Raw html form for posting new feedback.
     """
 
     def get(self, request, *args, **kwargs):
@@ -25,7 +25,8 @@ class FeebackForm(generic.edit.FormView):
         if form.is_valid():
             Feedback.objects.create_feedback_from_Form_or_Api(
                 email=form.cleaned_data['email'],
-                name=form.cleaned_data['name'],
+                first_name=form.cleaned_data['first_name'],
+                last_name=form.cleaned_data['last_name'],
                 text=form.cleaned_data['text'],
                 source_type='legacy-form',
                 source_url=request.build_absolute_uri(),
