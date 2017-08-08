@@ -11,7 +11,7 @@
         </div>
         <div class="collapsible-body">
             <p><b>Last response:</b></p>
-            <blockquote><i>{{ ticket.responses_by_support.last.text }}</i></blockquote>
+            <blockquote class="light">{{ ticket.responses_by_support.last.text }}</blockquote>
             <div class="row">
                 <a class="waves-effect waves-light btn left" href="{% url 'dispatch_to_support:ticket-detail' pk=ticket.pk %}">Ticket details
                     <i class="material-icons right">visibility</i> 

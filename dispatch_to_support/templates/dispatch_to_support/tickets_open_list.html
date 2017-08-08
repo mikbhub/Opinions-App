@@ -12,7 +12,7 @@
         </div>
         <div class="collapsible-body">
             <div class="row">
-                <p>{{ ticket.feedback.text }}</p>
+                <p class="light">{{ ticket.feedback.text }}</p>
                 <a class="waves-effect waves-light btn left" href="{% url 'dispatch_to_support:ticket-update' pk=ticket.pk %}">Details
                     <i class="material-icons right">visibility</i> 
                 </a>

@@ -31,8 +31,8 @@
     <!-- floating button -->
     <div class="fixed-action-btn toolbar">
         <a class="btn-large waves-effect waves-light red">Edit ticket
-      <i class="large material-icons right">mode_edit</i>
-    </a>
+        <i class="large material-icons right">mode_edit</i>
+        </a>
         <ul>
             <li class="waves-effect waves-light" id="response-create">
                 <form action="{% url 'dispatch_to_support:response-create' ticket_pk=object.pk %}" method="GET">
@@ -44,17 +44,18 @@
             <li class="waves-effect waves-light" id="ticket-close">
                 <form action="" method="POST">
                     {% csrf_token %}
-                <a class="tooltipped" data-position="top" data-delay="50" data-tooltip="Close the ticket" href="#!">
+                    <a class="tooltipped" data-position="top" data-delay="50" data-tooltip="Close the ticket" href="#!">
                     <i class="material-icons">done_all</i>
                 </a>
                 </form>
             </li>
         </ul>
-        </div>
+    </div>
+
 {% endblock body %}
 
-{% block footer %}
-  
+
+{% block footer %}  
 {% endblock footer %}
 
 
