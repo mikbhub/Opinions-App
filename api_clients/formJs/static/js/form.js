@@ -29,9 +29,7 @@ $(document).ready(function () {
             dataType: 'json',
         });
         request.done(function (xhr, status) {
-            // Materialize.toast(message, displayLength, className, completeCallback);
             Materialize.toast('Thank you for your opinion!', notification_timeout, 'green'); // 4000 is the duration of the toast
-            // alert('Thank you for your opinion.');
             $('button').prop('disabled', true);
         });
         request.fail(function (xhr, status, errorThrown) {
