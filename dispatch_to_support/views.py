@@ -91,13 +91,10 @@ class SupportTicketUpdateView(PermissionRequiredMixin, UpdateView):
         return context
 
 
-class DashboardView(LoginRequiredMixin, View):
+class DashboardView(View):
 
     def get(self, request):
-        ctx = {
-            'open_tickets': self.request.user.supportticket_set.filter(status=0)  # get open tickets
-        }
-        return render(request, 'dispatch_to_support/dashboard.html', ctx)
+        return render(request, 'dispatch_to_support/dashboard.html')
 
 
 class ResponseCreateView(FormView):
