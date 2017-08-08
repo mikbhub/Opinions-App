@@ -34,7 +34,7 @@ class QueueView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     def get(self, request):
         ctx = {
-            'open_tickets': self.request.user.supportticket_set.filter(status=0)  # get open tickets
+            'open_tickets': self.request.user.supportticket_set.filter(status=0).order_by('-opened')  # get open tickets
         }
         return render(request, 'dispatch_to_support/get_case.html', ctx)
 
