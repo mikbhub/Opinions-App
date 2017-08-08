@@ -32,6 +32,7 @@ class CustomerSupportDispatcher:
                 data = {
                     "feedback": support_ticket.feedback.pk,
                     "support_ticket": support_ticket.pk,
+                    "sentiment": sentiment,
                 }
                 self.queue.put((priority_number, data))
             return True
