@@ -13,7 +13,7 @@
             <p><b>Last response:</b></p>
             <blockquote><i>{{ ticket.responses_by_support.last.text }}</i></blockquote>
             <div class="row">
-                <a class="waves-effect waves-light btn right" href="{% url 'dispatch_to_support:ticket-detail' pk=ticket.pk %}">Ticket details
+                <a class="waves-effect waves-light btn left" href="{% url 'dispatch_to_support:ticket-detail' pk=ticket.pk %}">Ticket details
                     <i class="material-icons right">visibility</i> 
                 </a>
             </div>
