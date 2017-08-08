@@ -43,7 +43,7 @@ class CustomerSupportDispatcher:
         """
 
         query_set = SupportTicket.objects.filter(status__isnull=True)
-        
+
         if not query_set.exists():  # if query_set is empty, there are no more tickets to process.
             return False
         else:
