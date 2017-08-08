@@ -1,5 +1,5 @@
 # Collect opinions
-*This app is collects and stores customer opinions*.
+*This app collects and stores customer opinions*.
 
 ## Features
 
