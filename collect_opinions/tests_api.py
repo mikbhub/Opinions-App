@@ -21,7 +21,8 @@ class TestGetSingleCustomer(APITestCase):
         """
         fake = Factory.create()
         self.customer1 = Customer.objects.create(
-            name=fake.name(),
+            first_name=fake.first_name(),
+            last_name=fake.last_name(),
             email=fake.safe_email(),
         )
 
@@ -54,7 +55,8 @@ class TestCreateSingleCustomer(APITestCase):
 
     fake = Factory.create()
     customer_data = {
-        'name': fake.name(),
+        'first_name': fake.first_name(),
+        'last_name': fake.last_name(),
         'email': fake.safe_email(),
     }
 
@@ -74,7 +76,8 @@ class TestCreateAndGetSingleCustomer(APITestCase):
     """
     fake = Factory.create()
     customer_data = {
-        'name': fake.name(),
+        'first_name': fake.first_name(),
+        'last_name': fake.last_name(),
         'email': fake.safe_email(),
     }
     
@@ -115,7 +118,8 @@ class TestCreateFeedback(APITestCase):
 
     fake = Factory.create()
     email = fake.safe_email()
-    name = fake.name()
+    first_name = fake.first_name()
+    last_name = fake.last_name()
 
     def setUp(self):
         """
@@ -123,9 +127,9 @@ class TestCreateFeedback(APITestCase):
         """
         Customer.objects.create(
             email=self.email,
-            name=self.name,
+            first_name=self.first_name,
+            last_name=self.last_name,
         )
-        print(self.name, self.email)
     
     def tearDown(self):
         Customer.objects.all().delete()
@@ -139,7 +143,8 @@ class TestCreateFeedback(APITestCase):
         data = {
             "customer": {
                 "email": fake.safe_email(),
-                "name": fake.name()
+                "first_name": fake.first_name(),
+                "last_name": fake.last_name(),
             },
             "text": fake.text(),
             "source_type": "tests",
@@ -162,7 +167,8 @@ class TestCreateFeedback(APITestCase):
         data = {
             "customer": {
                 "email": self.email,
-                "name": self.name
+                "first_name": self.first_name,
+                "last_name": self.last_name,
             },
             "text": fake.text(),
             "source_type": "tests",
@@ -176,7 +182,7 @@ class TestCreateFeedback(APITestCase):
             Wrong response status! at {self.endpoint}.
             Response: {response.data}.
             email: {self.email}.
-            name: {self.name}.
+            first_name: {self.first_name}.
             """
         )
         self.assertEqual(Customer.objects.count(), 1, msg='Cusomer count does not match.')
@@ -197,29 +203,34 @@ class TestListFeebacks(APITestCase):
         fake = Factory.create()
         email1 = fake.safe_email()
         email2 = fake.safe_email()
-        name1 = fake.name()
-        name2 = fake.name()
+        first_name1 = fake.first_name()
+        first_name2 = fake.first_name()
+        last_name1 = fake.last_name()
+        last_name2 = fake.last_name()
         text1 = fake.text()
         text2 = fake.text()
         text3 = fake.text()
 
         Feedback.objects.create_feedback_from_Form_or_Api(
             email=email1,
-            name=name1,
+            first_name=first_name1,
+            last_name=last_name1,
             text=text1,
             source_type='tests',
         )
 
         Feedback.objects.create_feedback_from_Form_or_Api(
             email=email2,
-            name=name2,
+            first_name=first_name2,
+            last_name=last_name2,
             text=text2,
             source_type='tests',
         )
 
         Feedback.objects.create_feedback_from_Form_or_Api(
             email=email2,
-            name=name2,
+            first_name=first_name2,
+            last_name=last_name2,
             text=text3,
             source_type='tests',
         )
