@@ -6,7 +6,7 @@ app_name = 'dispatch_to_support'
 
 urlpatterns = [
     url(r'^queue/$', views.QueueView.as_view(), name='queue'),
-    url(r'^queue/next_task$', views.next_task, name='queue-next-task'),
+    url(r'^queue/next_task$', views.NextTaskView.as_view(), name='queue-next-task'),
     url(r'^dashboard/$', views.DashboardView.as_view(), name='dashboard'),
     url(r'^ticked_detail/(?P<pk>(\d)+)$', views.SupportTicketDetailView.as_view(), name='ticket-detail'),
     url(r'^ticked_update/(?P<pk>(\d)+)$', views.SupportTicketUpdateView.as_view(), name='ticket-update'),

@@ -1,28 +1,29 @@
-from django.contrib.auth.mixins import (LoginRequiredMixin,
-                                        PermissionRequiredMixin)
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+)
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views import View
-from django.views.generic import CreateView, DetailView, UpdateView
-from django.views.generic.detail import SingleObjectMixin
+from django.views.generic import DetailView, UpdateView
 from django.views.generic.edit import FormView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response as REST_Response
+from rest_framework.views import APIView
 
+from collect_opinions.models import Feedback
+from collect_opinions.serializers import FeedbackSerializer
 from dispatch_to_support.dispatcher import CustomerSupportDispatcher
 from dispatch_to_support.forms import ResponseForm
 from dispatch_to_support.models import Response, SupportTicket
 
-from rest_framework.decorators import api_view
-from rest_framework.response import Response as REST_Response
 
-from collect_opinions.serializers import FeedbackSerializer
-from collect_opinions.models import Feedback
-
-from django.core.exceptions import ObjectDoesNotExist
-
-
+# initialize dispather instance to prioritize customer feedback based on text analitics
 dispatcher = CustomerSupportDispatcher()
-# Create your views here.
+
+
 class QueueView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     permission_required = [
@@ -37,20 +38,6 @@ class QueueView(LoginRequiredMixin, PermissionRequiredMixin, View):
         }
         return render(request, 'dispatch_to_support/get_case.html', ctx)
 
-    def post(self, request):
-        sentiment, data = dispatcher.give_next_customer_case(give_to=self.request.user)
-        feedback = data["feedback"]
-        support_ticket = data["support_ticket"]
-        context = {
-            'queue': dispatcher.queue.empty(),
-            'sentiment': sentiment,
-            'feedback': feedback,
-        }
-        try:
-            return redirect('dispatch_to_support:ticket-update', pk=support_ticket.pk)
-        except AttributeError:
-            return render(request, 'dispatch_to_support/queue.html', context)
-
 
 class SupportTicketDetailView(LoginRequiredMixin, DetailView):
     model = SupportTicket
@@ -58,12 +45,12 @@ class SupportTicketDetailView(LoginRequiredMixin, DetailView):
 
 
 class SupportTicketUpdateView(PermissionRequiredMixin, UpdateView):
-    
+
     permission_required = [
         'dispatch_to_support.change_supportticket'
     ]
     raise_exception = True
-    
+
     model = SupportTicket
 
     fields = [
@@ -81,7 +68,7 @@ class SupportTicketUpdateView(PermissionRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super(SupportTicketUpdateView, self).get_context_data(**kwargs)
-        # Add in a QuerySet of all the books
+        # Add in a QuerySet of ticket history
         customer = self.object.feedback.customer
         context['customer_past_ticket_list'] = SupportTicket.objects.filter(
             feedback__customer=customer, 
@@ -100,7 +87,6 @@ class DashboardView(View):
 class ResponseCreateView(FormView):
     template_name = "dispatch_to_support/response_form.html"
     form_class = ResponseForm
-    success_url= reverse_lazy('dispatch_to_support:dashboard')
 
     def post(self, request, ticket_pk, *args, **kwargs):
         form = ResponseForm(data=request.POST)
@@ -116,55 +102,57 @@ class ResponseDetailView(DetailView):
 
 
 # quick & dirty method to build REST api endpoint for queue dispatcher
-@api_view()
-def next_task(request):
+class NextTaskView(APIView):
     """
     Api endpoint that gives new task or if there are no tasks avaliable returns {}.
     """
+    permission_classes = (IsAuthenticated,)
 
-    # check if support person has not reached the limit of open tickets
-    # which for now is hardcoded = 3
-    your_open_ticket_count = request.user.supportticket_set.filter(status=0).count()
-    OPEN_TICKER_LIMIT = 3
-    if your_open_ticket_count >= OPEN_TICKER_LIMIT:
-        return REST_Response(
-            [
-                'Reached limit of open tickets',
-                {
-                    'Limit': OPEN_TICKER_LIMIT
-                }
-            ]
-        )
+    def get(self, request):
 
-    sentiment, data = dispatcher.give_next_customer_case(give_to=request.user)
-    
-    # The queue is out of tasks
-    if data is None:
-        return REST_Response(
-            [
-                'There are no more tasks for now'
-            ]
-        )
-    
-    feedback_pk = data["feedback"]
-    support_ticket_pk = data["support_ticket"]
+        # check if support person has not reached the limit of open tickets
+        # which for now is hardcoded = 3
+        your_open_ticket_count = request.user.supportticket_set.filter(status=0).count()
+        OPEN_TICKER_LIMIT = 20
+        if your_open_ticket_count >= OPEN_TICKER_LIMIT:
+            return REST_Response(
+                [
+                    'Reached limit of open tickets',
+                    {
+                        'Limit': OPEN_TICKER_LIMIT
+                    }
+                ]
+            )
 
-    try:
-        feedback = Feedback.objects.get(pk=feedback_pk)
-        feedback_serialized = FeedbackSerializer(
-            instance=feedback,
-            context={'request': request},
-        )
-    except ObjectDoesNotExist:
-        context = 'DoesNotExist'
-    else:
-        context = {
-            'sentiment': sentiment,
-            'feedback': feedback_serialized.data,
-            'support_ticket_pk': support_ticket_pk,
-            'user': request.user.username,
-        }
+        priority_number, data = dispatcher.give_next_customer_case(give_to=request.user)
+        
+        # The queue is out of tasks
+        if data is None:
+            return REST_Response(
+                [
+                    'There are no more tasks for now'
+                ]
+            )
+        
+        feedback_pk = data["feedback"]
+        support_ticket_pk = data["support_ticket"]
+        sentiment = data["sentiment"]
 
-    return REST_Response(context)
-    # support_ticket = SupportTicket.objects.get(pk=support_ticket_pk)
+        try:
+            feedback = Feedback.objects.get(pk=feedback_pk)
+            feedback_serialized = FeedbackSerializer(
+                instance=feedback,
+                context={'request': request},
+            )
+        except ObjectDoesNotExist:
+            context = 'DoesNotExist'
+        else:
+            context = {
+                'priority_number': priority_number,
+                'sentiment': sentiment,
+                'feedback': feedback_serialized.data,
+                'support_ticket_pk': support_ticket_pk,
+                'user': request.user.username,
+            }
 
+        return REST_Response(context)
