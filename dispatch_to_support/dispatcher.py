@@ -13,7 +13,7 @@ class Prioritize:
     when consecutive pushed tuples (priority_number, data)
     have equal priority_numbers
     """
-    
+
     def __init__(self, priority, data):
         self.priority = priority
         self.data = data
@@ -27,10 +27,9 @@ class Prioritize:
 
 class CustomerSupportDispatcher:
     """
-    customer support person requests next support case
+    Customer support person requests next support case
     dispatcher tries to provide next element from it's queue
-    if it fails, it populates it's queue by quering the database for feedback that has not been processed by customer support
-    it queries from ordered by -date
+    if it fails, it populates it's queue by quering the database for feedback that has not been processed by customer support.
     """
 
     def __init__(self, *args, **kwargs):
@@ -42,7 +41,9 @@ class CustomerSupportDispatcher:
         Returns True if populated the queue with new records,
         False otherwise.
         """
+
         query_set = SupportTicket.objects.filter(status__isnull=True)
+        
         if not query_set.exists():  # if query_set is empty, there are no more tickets to process.
             return False
         else:
