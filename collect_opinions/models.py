@@ -8,7 +8,12 @@ class Customer(models.Model):
     """
 
     email = models.EmailField(max_length=128, unique=True, null=True, db_index=True)
-    name = models.CharField(max_length=128)
+    first_name = models.CharField(max_length=128)
+    last_name = models.CharField(max_length=128)
+    
+    @property
+    def name(self):
+        return f'{self.first_name} {self.last_name}'
 
     def __str__(self):
         return f'{self.name}, email: {self.email}'
@@ -28,7 +33,7 @@ class FeedbackManager(models.Manager):
     * creating new `customer` if one is not in the database.
     """
 
-    def create_feedback_from_Form_or_Api(self, email, name, *feedback_args, **feedback_kwargs):
+    def create_feedback_from_Form_or_Api(self, email, first_name, last_name, *feedback_args, **feedback_kwargs):
         """
         Creates new `Feedback` instance and assigns it to `Customer` from the database.
         If customer is not in the database, creates `Customer` instance and saves it to the database.
@@ -39,7 +44,10 @@ class FeedbackManager(models.Manager):
         """
         customer, created = Customer.objects.update_or_create(
             email=email,
-            defaults={'name': name},
+            defaults={
+                'first_name': first_name,
+                'last_name': last_name,
+                },
         )
         feedback_kwargs.update({'customer': customer})
         feedback = Feedback.objects.create(*feedback_args, **feedback_kwargs)
