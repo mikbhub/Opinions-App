@@ -35,6 +35,7 @@ $(document).ready(function () {
         });
     });
 });
+
 function build_template(json) {
     // building django url in javascript :(
     const newURL = window.location.protocol + "//" + window.location.host + "/" + "dispatch_to_support/ticked_update/" + json.support_ticket_pk;
@@ -50,7 +51,7 @@ function build_template(json) {
         <div class="collapsible-body">
             <div class="row">
                 <p>${json.feedback.text}</p>
-                <a class="waves-effect waves-light btn right" href="${newURL}">Details
+                <a class="waves-effect waves-light btn left" href="${newURL}">Details
                     <i class="material-icons right">visibility</i> 
                 </a>
             </div>
