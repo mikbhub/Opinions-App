@@ -113,7 +113,7 @@ class NextTaskView(APIView):
         # check if support person has not reached the limit of open tickets
         # which for now is hardcoded = 3
         your_open_ticket_count = request.user.supportticket_set.filter(status=0).count()
-        OPEN_TICKER_LIMIT = 20
+        OPEN_TICKER_LIMIT = 4
         if your_open_ticket_count >= OPEN_TICKER_LIMIT:
             return REST_Response(
                 [
