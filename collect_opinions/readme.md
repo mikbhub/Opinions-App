@@ -3,8 +3,9 @@
 
 ## Features
 
-### It exposes `REST API` endpoint that accepts:
-- customer name
+### Exposes `REST API` endpoint that accepts:
+- customer first name
+- customer last name
 - customer email
 - opinion text
 
