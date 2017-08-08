@@ -10,7 +10,7 @@
 {% block body %}
     <div class="row">
         <div class="col s12 m12 l12">
-             <p class="flow-text center-align">Ticket Update View</p> 
+             <p class="flow-text center-align">Ticket Update</p> 
             {% include "dispatch_to_support/ticket_details.html" %}
         </div>
     </div>
@@ -30,8 +30,8 @@
     
     <!-- floating button -->
     <div class="fixed-action-btn toolbar">
-        <a class="btn-floating btn-large red">
-      <i class="large material-icons">mode_edit</i>
+        <a class="btn-large waves-effect waves-light red">Edit ticket
+      <i class="large material-icons right">mode_edit</i>
     </a>
         <ul>
             <li class="waves-effect waves-light" id="response-create">
@@ -52,6 +52,10 @@
         </ul>
         </div>
 {% endblock body %}
+
+{% block footer %}
+  
+{% endblock footer %}
 
 
 {% block scripts %}
