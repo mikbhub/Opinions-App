@@ -8,7 +8,8 @@ class CustomerSerializer(serializers.HyperlinkedModelSerializer):
         model = Customer
         # fields = '__all__'
         fields = (
-            "name",
+            "first_name",
+            "last_name",
             "email",
             'customer_url',
         )
@@ -20,7 +21,6 @@ class FeedbackSerializer(serializers.HyperlinkedModelSerializer):
     customer = serializers.HyperlinkedRelatedField(
         view_name="collect_opinions:customer-detail",
         read_only=True,
-        # queryset=Customer.objects.all(),
     )
 
     class Meta:
@@ -41,7 +41,8 @@ class CustomerRawSerializer(serializers.Serializer):
     QuickFix to ommit email `unique` constraint on `customer`.
     """
     email = serializers.EmailField(required=True)
-    name = serializers.CharField(required=True)
+    first_name = serializers.CharField(required=True)
+    last_name = serializers.CharField(required=True)
 
 
 class FeedbackCreateSerializer(serializers.ModelSerializer):
@@ -68,7 +69,8 @@ class FeedbackCreateSerializer(serializers.ModelSerializer):
         customer = validated_data.pop('customer')
         # utilizes custom FeedbackManager
         return Feedback.objects.create_feedback_from_Form_or_Api(
-            name=customer['name'],
+            first_name=customer['first_name'],
+            last_name=customer['last_name'],
             email=customer['email'],
             **validated_data,
         )
