@@ -8,20 +8,7 @@
 
 
 {% block body %}
-<div class="row">
-    <div class="col s12">
-        <h2>Dashboard</h2>
-        <p><a href="{% url 'dispatch_to_support:queue' %}">Jobs queue</a></p>
-        <section>
-            <p>Your open tickets:</p>
-            <ol>
-                {% for ticket in open_tickets %}
-                <li><a href="{% url 'dispatch_to_support:ticket-update' pk=ticket.pk %}">{{ ticket.feedback }}</a></li>
-                {% endfor %}
-            </ol>
-        </section>
-    </div>
-</div>
+    {% include "dispatch_to_support/demo_instructions.html" %}
 {% endblock body %}
 
   
