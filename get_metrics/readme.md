@@ -8,5 +8,5 @@
 - customer based metrics (not implemented)
 
 ### Tasks queue to optimize external analitics api calls (not implemented)
-* `requests`
-* `celery` tasks
+* `requests` (TODO)
+* `celery` tasks (TODO)

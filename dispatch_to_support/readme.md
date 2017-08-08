@@ -5,6 +5,7 @@
 
 ### Priority queue
 - holds tasks prioritized by metrics computed by **get_metrics** app.
+- TODO: replace PriorityQueue with `Celery`
 
 ### Interface for human customer support
 * request next task
