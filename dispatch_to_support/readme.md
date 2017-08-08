@@ -12,3 +12,4 @@
 * see opened tasks
 * take action on a task:
     * write a response to customer complaint
+    * close ticket
