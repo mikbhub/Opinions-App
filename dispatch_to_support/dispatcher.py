@@ -1,6 +1,29 @@
+from functools import total_ordering
 from queue import PriorityQueue
-from dispatch_to_support.models import SupportTicket
+
 from django.utils import timezone
+
+from dispatch_to_support.models import SupportTicket
+
+
+@total_ordering
+class Prioritize:
+    """
+    Quickfix for python 3.6 heapq.heapify() TypeError that arizes
+    when consecutive pushed tuples (priority_number, data)
+    have equal priority_numbers
+    """
+    
+    def __init__(self, priority, data):
+        self.priority = priority
+        self.data = data
+
+    def __eq__(self, other):
+        return self.priority == other.priority
+
+    def __lt__(self, other):
+        return self.priority < other.priority
+
 
 class CustomerSupportDispatcher:
     """
@@ -24,9 +47,10 @@ class CustomerSupportDispatcher:
             return False
         else:
             # build inner PriorityQueue from tuples:
-            # (sentiment, data)
+            # (priority_number, data)
             for support_ticket in query_set:
                 sentiment = float(support_ticket.feedback.metrics.sentiment)
+                # prioritize older feedbacks
                 time_lag = (timezone.localtime() - support_ticket.feedback.date).days
                 priority_number = sentiment - time_lag
                 data = {
@@ -34,7 +58,7 @@ class CustomerSupportDispatcher:
                     "support_ticket": support_ticket.pk,
                     "sentiment": sentiment,
                 }
-                self.queue.put((priority_number, data))
+                self.queue.put(Prioritize(priority_number, data))
             return True
 
     def give_next_customer_case(self, give_to, **kwargs):
@@ -47,7 +71,8 @@ class CustomerSupportDispatcher:
                 # TODO: un-ugly this
                 return None, None
         else:
-            priority_number, data = self.queue.get()
+            item = self.queue.get()
+            priority_number, data = item.priority, item.data
             SupportTicket.objects.filter(pk=data["support_ticket"]).update(
                 status=0,
                 support_person=give_to,
