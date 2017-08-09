@@ -26,7 +26,7 @@
         {% endif %} 
     {% endif %} 
 
-        <form name="loginform" method="post" action="{% url 'login' %}">
+        <form name="loginform" autocomplete="off" method="post" action="{% url 'login' %}">
             {% csrf_token %}
 
             <div class="row">
