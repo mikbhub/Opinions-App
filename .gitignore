@@ -111,3 +111,5 @@ main_app/settings_dev.py
 
 # pythonanywhere settings
 main_app/settings_pythonanywhere.py
+
+main_app/settings_platform_specific.py
