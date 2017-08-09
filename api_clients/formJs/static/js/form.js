@@ -3,7 +3,7 @@
 // ajax app
 $(document).ready(function () {
 
-    let endpoint = 'http://127.0.0.1:8110/collect_opinions/api/feedbacks/new/';
+    let endpoint = 'http://mikolajbabiak.pythonanywhere.com/collect_opinions/api/feedbacks/new/';
     let form = document.forms.feedbackform;
 
     // set notification timeout in microseconds. 1000 ms = 1 s
@@ -24,7 +24,7 @@ $(document).ready(function () {
                 },
                 'text': form.text.value,
                 'source_type': 'formjs',
-                'source_url': 'http://127.0.0.1:8120/'
+                'source_url': endpoint
             }),
             dataType: 'json',
         });
