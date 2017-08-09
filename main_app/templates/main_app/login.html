@@ -1,5 +1,7 @@
 {% extends "dispatch_to_support/dashboard_base.html" %} 
 
+{% load static %}
+
 {% block title %}
     Login
 {% endblock title %}
@@ -24,7 +26,7 @@
         {% endif %} 
     {% endif %} 
 
-        <form method="post" action="{% url 'login' %}">
+        <form name="loginform" method="post" action="{% url 'login' %}">
             {% csrf_token %}
 
             <div class="row">
@@ -52,5 +54,12 @@
         </form>
     </div>
 </div>
-  
+
 {% endblock body %}
+
+{% block scripts %}
+{% comment %} <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> {% endcomment %}
+{% comment %} <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" {% endcomment %}
+    {% comment %} crossorigin="anonymous"></script> {% endcomment %}
+ <script src="{% static 'js/login.js' %}"></script> 
+{% endblock scripts %}
