@@ -113,3 +113,6 @@ main_app/settings_dev.py
 main_app/settings_pythonanywhere.py
 
 main_app/settings_platform_specific.py
+
+# static files after collectstatic
+assets
