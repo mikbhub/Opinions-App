@@ -21,12 +21,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-from . secret import SECRET_KEY
+from .secret import SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+from .settings_local import DEBUG
+from .settings_local import ALLOWED_HOSTS
 
 
 # Application definition
@@ -82,14 +81,9 @@ WSGI_APPLICATION = 'main_app.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
 from .settings_local import DATABASES
+
+
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
@@ -139,9 +133,6 @@ REST_FRAMEWORK = {
 }
 
 # CORS
-CORS_ORIGIN_WHITELIST = (
-    'localhost:8120',
-    '127.0.0.1:8120',
-)
+from .settings_local import CORS_ORIGIN_WHITELIST
 
 LOGIN_REDIRECT_URL = reverse_lazy('dispatch_to_support:dashboard')
