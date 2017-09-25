@@ -138,3 +138,5 @@ REST_FRAMEWORK = {
 from .settings_local import CORS_ORIGIN_WHITELIST
 
 LOGIN_REDIRECT_URL = reverse_lazy('dispatch_to_support:dashboard')
+
+from .settings_local import SECURE_SSL_REDIRECT
