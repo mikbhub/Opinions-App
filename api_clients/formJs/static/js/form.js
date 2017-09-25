@@ -3,11 +3,11 @@
 // ajax app
 $(document).ready(function () {
 
-    let endpoint = 'http://mikolajbabiak.pythonanywhere.com/collect_opinions/api/feedbacks/new/';
+    const endpoint = 'https://mikolajbabiak.pythonanywhere.com/collect_opinions/api/feedbacks/new/';
     let form = document.forms.feedbackform;
 
     // set notification timeout in microseconds. 1000 ms = 1 s
-    let notification_timeout = 4000;
+    const notification_timeout = 4000;
 
     $(form).submit(function (event) {
         event.preventDefault();
