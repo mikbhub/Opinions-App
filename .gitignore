@@ -116,3 +116,6 @@ main_app/settings_platform_specific.py
 
 # static files after collectstatic
 assets
+
+#filesystem
+.directory
