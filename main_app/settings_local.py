@@ -4,6 +4,7 @@ try:
         DEBUG,
         ALLOWED_HOSTS,
         CORS_ORIGIN_WHITELIST,
+        SECURE_SSL_REDIRECT,
     )
 except ModuleNotFoundError as identifier:
     from .settings_dev import (
@@ -11,4 +12,5 @@ except ModuleNotFoundError as identifier:
         DEBUG,
         ALLOWED_HOSTS,
         CORS_ORIGIN_WHITELIST,
+        SECURE_SSL_REDIRECT,
     )
