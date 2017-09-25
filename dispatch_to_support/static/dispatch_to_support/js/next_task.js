@@ -1,4 +1,4 @@
-const api_endpoint = 'http://mikolajbabiak.pythonanywhere.com/dispatch_to_support/queue/next_task';
+const api_endpoint = 'https://mikolajbabiak.pythonanywhere.com/dispatch_to_support/queue/next_task';
 const notification_timeout = 6000;
 
 const limi_reached = "Reached limit of open tickets";
